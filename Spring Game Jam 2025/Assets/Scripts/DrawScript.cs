@@ -74,30 +74,30 @@ public class DrawScript : MonoBehaviour
     }
 
     void paintWithMouse() {
-        if (table.currentPaint != 0) {
-            Mouse mouse = Mouse.current;
-            if (mouse.leftButton.isPressed)
-            {
-                Vector2 mousePosition = mouse.position.ReadValue();
-                mousePosition = camera.ScreenToWorldPoint(mousePosition);
-                mousePosition -= new Vector2(transform.position.x, transform.position.y);
-                mousePosition /= new Vector2(width / 10f, height / 10f);
-                mousePosition += new Vector2(0.5f, 0.5f);
-                if (mouseLastPressed) {
-                    Vector2 mouseDirection = (mousePosition - lastMousePosition).normalized;
-                    float mouseDistance = (mousePosition - lastMousePosition).magnitude;
-                    if (mouseDistance >= 1f / width) {
-                        for (float i = 0; i < mouseDistance; i += 1f / width) {
-                            brushPosition(lastMousePosition + (mouseDirection * i), table.currentPaint);
-                        }
+        if (!gameObject.transform.parent.CompareTag("Painting Table")) return;
+        if (table.currentPaint == 0) return;
+        Mouse mouse = Mouse.current;
+        if (mouse.leftButton.isPressed)
+        {
+            Vector2 mousePosition = mouse.position.ReadValue();
+            mousePosition = camera.ScreenToWorldPoint(mousePosition);
+            mousePosition -= new Vector2(transform.position.x, transform.position.y);
+            mousePosition /= new Vector2(width / 10f, height / 10f);
+            mousePosition += new Vector2(0.5f, 0.5f);
+            if (mouseLastPressed) {
+                Vector2 mouseDirection = (mousePosition - lastMousePosition).normalized;
+                float mouseDistance = (mousePosition - lastMousePosition).magnitude;
+                if (mouseDistance >= 1f / width) {
+                    for (float i = 0; i < mouseDistance; i += 1f / width) {
+                        brushPosition(lastMousePosition + (mouseDirection * i), table.currentPaint);
                     }
                 }
-                brushPosition(mousePosition, table.currentPaint);
-                lastMousePosition = mousePosition;
-                mouseLastPressed = true;
-            } else {
-                mouseLastPressed = false;
             }
+            brushPosition(mousePosition, table.currentPaint);
+            lastMousePosition = mousePosition;
+            mouseLastPressed = true;
+        } else {
+            mouseLastPressed = false;
         }
     }
 
