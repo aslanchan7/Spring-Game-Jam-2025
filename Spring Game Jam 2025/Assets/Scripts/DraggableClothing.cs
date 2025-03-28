@@ -25,13 +25,11 @@ public class DraggableClothing : DragDroppable
                 {
                     // Instantiate the shirt prefab
                     GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
-                    instantiatedObject.transform.localPosition = Vector2.zero;
-                    instantiatedObject.transform.localScale = new(0.75f, 0.75f);
+                    instantiatedObject.transform.localPosition = new Vector2(0, 1.4f);
                 }
                 else if (hit.collider.transform.GetChild(0) == this.transform)
                 {
-                    transform.localPosition = Vector2.zero;
-                    transform.localScale = new(0.75f, 0.75f);
+                    transform.localPosition = new Vector2(0, 1.4f);
                     return;
                 }
             }
@@ -41,13 +39,11 @@ public class DraggableClothing : DragDroppable
                 {
                     // Instantiate the shirt prefab
                     GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
-                    instantiatedObject.transform.localPosition = Vector2.zero;
-                    instantiatedObject.transform.localScale = new(0.75f, 0.75f);
+                    instantiatedObject.transform.localPosition = new Vector2(0, -0.45f);
                 }
                 else if (hit.collider.transform.GetChild(1) == this.transform)
                 {
-                    transform.localPosition = Vector2.zero;
-                    transform.localScale = new(0.75f, 0.75f);
+                    transform.localPosition = new Vector2(0, -0.45f);
                     return;
                 }
             }
