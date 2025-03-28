@@ -44,8 +44,6 @@ public class DryingRack : MonoBehaviour
             progressBar.value = Mathf.Clamp01(elapsedTime / completionTime);
         }
 
-        Debug.Log(elapsedTime);
-
         lastFrameChildCount = transform.childCount;
     }
 }
