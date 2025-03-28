@@ -14,14 +14,12 @@ public class ClothingBox : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.Instance.MouseClick.ReadValue<float>() != 0f && transform.childCount == 0)
-        {
-            MousePressed();
-        }
+        
     }
 
-    private void MousePressed()
+    void OnMouseDown()
     {
+        if (transform.childCount != 0) return;
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mousePos.z = 0;
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
