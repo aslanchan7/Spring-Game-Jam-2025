@@ -35,6 +35,22 @@ public class DraggableClothing : DragDroppable
                     return;
                 }
             }
+            else if (hit.collider.CompareTag("Drying Rack"))
+            {
+                if (hit.collider.transform.childCount == 1)
+                {
+                    // Instantiate the shirt prefab
+                    GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
+                    instantiatedObject.transform.localPosition = Vector2.zero;
+                    instantiatedObject.transform.localScale = new(0.75f, 0.75f);
+                }
+                else if (hit.collider.transform.GetChild(1) == this.transform)
+                {
+                    transform.localPosition = Vector2.zero;
+                    transform.localScale = new(0.75f, 0.75f);
+                    return;
+                }
+            }
         }
 
         // Delete this current dragged shirt
