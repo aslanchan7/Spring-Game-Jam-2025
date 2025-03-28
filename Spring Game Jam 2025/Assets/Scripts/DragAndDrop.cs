@@ -17,6 +17,7 @@ public class DragAndDrop : MonoBehaviour
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         List<RaycastHit2D> hits = new();
         Physics2D.Raycast(mousePos, Vector2.zero, filter, hits);
+        Debug.Log(hits.Count);
         foreach (var hit in hits)
         {
             hit.collider.TryGetComponent<DragDroppable>(out var dragDropComponent);

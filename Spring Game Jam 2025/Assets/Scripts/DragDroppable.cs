@@ -21,12 +21,13 @@ public abstract class DragDroppable : MonoBehaviour, IDrag
 
     private IEnumerator DragUpdate(GameObject clickedObject)
     {
-        // OnStartDrag();
+        OnStartDrag();
         while (InputManager.Instance.MouseClick.ReadValue<float>() != 0f)
         {
             Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector3 velocity = Vector3.zero;
             clickedObject.transform.position = Vector3.SmoothDamp(clickedObject.transform.position, mousePos, ref velocity, mouseDragSpeed);
+            OnDrag();
             yield return null;
         }
         OnEndDrag();
@@ -35,6 +36,11 @@ public abstract class DragDroppable : MonoBehaviour, IDrag
     public virtual void OnStartDrag()
     {
         Debug.Log("OnStartDrag not implemented");
+    }
+
+    public virtual void OnDrag()
+    {
+        Debug.Log("OnDrag not implemented");
     }
 
     public virtual void OnEndDrag()

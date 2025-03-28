@@ -1,14 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class DraggableClothing : DragDroppable
 {
     [SerializeField] GameObject clothing;
 
-    public override void OnStartDrag()
+    public override void OnDrag()
     {
-        throw new System.NotImplementedException();
+        PointerEventData pointerEventData = new(EventSystem.current);
+        List<RaycastResult> raycasts = new();
+        EventSystem.current.RaycastAll(pointerEventData, raycasts);
+        // Debug.Log(raycasts.Count);
     }
 
     public override void OnEndDrag()
@@ -26,6 +30,8 @@ public class DraggableClothing : DragDroppable
                     // Instantiate the shirt prefab
                     GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
                     instantiatedObject.transform.localPosition = new Vector2(0, 1.4f);
+                    Destroy(gameObject);
+                    return;
                 }
                 else if (hit.collider.transform.GetChild(0) == this.transform)
                 {
@@ -40,6 +46,8 @@ public class DraggableClothing : DragDroppable
                     // Instantiate the shirt prefab
                     GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
                     instantiatedObject.transform.localPosition = new Vector2(0, -0.45f);
+                    Destroy(gameObject);
+                    return;
                 }
                 else if (hit.collider.transform.GetChild(1) == this.transform)
                 {
@@ -49,7 +57,17 @@ public class DraggableClothing : DragDroppable
             }
         }
 
-        // Delete this current dragged shirt
+        if (transform.parent.CompareTag("Painting Table"))
+        {
+            transform.localPosition = new Vector2(0, 1.4f);
+            return;
+        }
+        else if (transform.parent.CompareTag("Drying Rack"))
+        {
+            transform.localPosition = new Vector2(0, -0.45f);
+            return;
+        }
+
         Destroy(gameObject);
     }
 }
