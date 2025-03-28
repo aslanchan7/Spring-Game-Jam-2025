@@ -18,7 +18,8 @@ public class DraggableClothing : DragDroppable
     public override IEnumerator DragUpdate(GameObject clickedObject)
     {
         table = FindAnyObjectByType<PaintingTable>();
-        if (table.currentPaint != 0) {
+        if (table.currentPaint != 0)
+        {
             yield break;
         }
         OnStartDrag();
@@ -35,14 +36,35 @@ public class DraggableClothing : DragDroppable
 
     public override void OnDrag()
     {
-        PointerEventData pointerEventData = new(EventSystem.current);
-        List<RaycastResult> raycasts = new();
-        EventSystem.current.RaycastAll(pointerEventData, raycasts);
-        // Debug.Log(raycasts.Count);
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+        foreach (var raycastResult in raycastResults)
+        {
+            raycastResult.gameObject.TryGetComponent<OrderBox>(out var orderBoxComponent);
+            if (orderBoxComponent != null)
+            {
+                raycastResult.gameObject.GetComponent<RectTransform>().localScale = new(1.05f, 1.05f, 1.05f);
+            }
+        }
     }
 
     public override void OnEndDrag()
     {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+        foreach (var raycastResult in raycastResults)
+        {
+            raycastResult.gameObject.TryGetComponent<OrderBox>(out var orderBoxComponent);
+            if (orderBoxComponent != null)
+            {
+                orderBoxComponent.TrySell(gameObject);
+            }
+        }
+
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         List<RaycastHit2D> hits = new();
         Physics2D.Raycast(mousePos, Vector2.zero, filter, hits);
@@ -92,6 +114,7 @@ public class DraggableClothing : DragDroppable
             transform.localPosition = new Vector2(0, -0.45f);
             return;
         }
+
 
         Destroy(gameObject);
     }
