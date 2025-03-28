@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public abstract class DragDroppable : MonoBehaviour, IDrag
 {
-    [SerializeField] float mouseDragSpeed = 0f;
+    public float mouseDragSpeed = 0f;
     public ContactFilter2D filter;
     [HideInInspector] public Camera mainCamera;
 
@@ -19,7 +19,7 @@ public abstract class DragDroppable : MonoBehaviour, IDrag
         StartCoroutine(DragUpdate(clickedObject));
     }
 
-    private IEnumerator DragUpdate(GameObject clickedObject)
+    public virtual IEnumerator DragUpdate(GameObject clickedObject)
     {
         OnStartDrag();
         while (InputManager.Instance.MouseClick.ReadValue<float>() != 0f)

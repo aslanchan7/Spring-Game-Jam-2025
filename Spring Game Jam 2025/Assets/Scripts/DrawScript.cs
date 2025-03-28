@@ -15,6 +15,8 @@ public class DrawScript : MonoBehaviour
     private Vector2 lastMousePosition = new Vector2(0, 0);
     private bool mouseLastPressed = false;
 
+    private PaintingTable table;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +33,7 @@ public class DrawScript : MonoBehaviour
             else if (block[i] == Color.black) pixels[i] = 1;
             else pixels[i] = 2;
         }
+        table = FindAnyObjectByType<PaintingTable>();
     }
 
     // Update is called once per frame
@@ -42,8 +45,9 @@ public class DrawScript : MonoBehaviour
             if (pixels[i] == 0) tmpTexture.SetPixel(i % width, i / width, Color.clear);
             else if (pixels[i] == 1) tmpTexture.SetPixel(i % width, i / width, Color.black);
             else if (pixels[i] == 2) tmpTexture.SetPixel(i % width, i / width, Color.white);
-            else if (pixels[i] == 3) tmpTexture.SetPixel(i % width, i / width, Color.green);
-            else if (pixels[i] == 4) tmpTexture.SetPixel(i % width, i / width, Color.red);
+            else if (pixels[i] == 3) tmpTexture.SetPixel(i % width, i / width, new Color32(106, 190, 48, 255));
+            else if (pixels[i] == 4) tmpTexture.SetPixel(i % width, i / width, new Color32(172, 50, 50, 255));
+            else if (pixels[i] == 5) tmpTexture.SetPixel(i % width, i / width, new Color32(99, 155, 255, 255));
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace)) {
@@ -55,7 +59,7 @@ public class DrawScript : MonoBehaviour
         tmpTexture.filterMode = FilterMode.Point;
         tmpTexture.Apply(false, true);
 
-        spriteRenderer.sprite = Sprite.Create(tmpTexture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), width);
+        spriteRenderer.sprite = Sprite.Create(tmpTexture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 10);
     }
 
     void OnMouseOver()
@@ -70,34 +74,37 @@ public class DrawScript : MonoBehaviour
     }
 
     void paintWithMouse() {
-        Mouse mouse = Mouse.current;
-        if (mouse.leftButton.isPressed)
-        {
-            Vector2 mousePosition = mouse.position.ReadValue();
-            mousePosition = camera.ScreenToWorldPoint(mousePosition);
-            mousePosition = (mousePosition - new Vector2(transform.position.x, transform.position.y)) / transform.localScale;
-            mousePosition = mousePosition + new Vector2(0.5f, 0.5f);
-            if (mouseLastPressed) {
-                Vector2 mouseDirection = (mousePosition - lastMousePosition).normalized;
-                float mouseDistance = (mousePosition - lastMousePosition).magnitude;
-                if (mouseDistance >= 1f / width) {
-                    for (float i = 0; i < mouseDistance; i += 1f / width) {
-                        brushPosition(lastMousePosition + (mouseDirection * i), 3);
+        if (table.currentPaint != 0) {
+            Mouse mouse = Mouse.current;
+            if (mouse.leftButton.isPressed)
+            {
+                Vector2 mousePosition = mouse.position.ReadValue();
+                mousePosition = camera.ScreenToWorldPoint(mousePosition);
+                mousePosition -= new Vector2(transform.position.x, transform.position.y);
+                mousePosition /= new Vector2(width / 10f, height / 10f);
+                mousePosition += new Vector2(0.5f, 0.5f);
+                if (mouseLastPressed) {
+                    Vector2 mouseDirection = (mousePosition - lastMousePosition).normalized;
+                    float mouseDistance = (mousePosition - lastMousePosition).magnitude;
+                    if (mouseDistance >= 1f / width) {
+                        for (float i = 0; i < mouseDistance; i += 1f / width) {
+                            brushPosition(lastMousePosition + (mouseDirection * i), table.currentPaint);
+                        }
                     }
                 }
+                brushPosition(mousePosition, table.currentPaint);
+                lastMousePosition = mousePosition;
+                mouseLastPressed = true;
+            } else {
+                mouseLastPressed = false;
             }
-            brushPosition(mousePosition, 3);
-            lastMousePosition = mousePosition;
-            mouseLastPressed = true;
-        } else {
-            mouseLastPressed = false;
         }
     }
 
     void brushPosition(Vector2 mousePosition, byte color) {
         if (mousePosition.x >= 0 && mousePosition.x < 1 && mousePosition.y >= 0 && mousePosition.y < 1) {
             int pixelX = (int) (mousePosition.x * width);
-            int pixelY = (int) (mousePosition.y * width);
+            int pixelY = (int) (mousePosition.y * height);
             for (int i = 0; i < 49; i++) {
                 if (i == 0 || i == 1 || i == 5 || i == 6 || i == 7 || i == 13 || i == 35 || i == 41 || i == 42 || i == 43 || i == 47 || i == 48) continue;
                 int newPixelX = pixelX - 3 + (i % 7);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5537290860795115955}
   - component: {fileID: 5789668303316795345}
   - component: {fileID: 1001278574336467532}
+  - component: {fileID: 7747946994598382319}
   m_Layer: 0
   m_Name: Shirt
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
     maxNormalAngle: 0
   mainCamera: {fileID: 0}
   clothing: {fileID: 609775818664863317}
+  table: {fileID: 0}
 --- !u!61 &1001278574336467532
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,3 +166,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6, y: 5.8}
   m_EdgeRadius: 0
+--- !u!114 &7747946994598382319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609775818664863317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f294614c20fd44eaa4909a048920d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5537290860795115955}
+  originalSprite: {fileID: -2530768103833504371, guid: d5aedb36634552946913b4c9e54e4518, type: 3}

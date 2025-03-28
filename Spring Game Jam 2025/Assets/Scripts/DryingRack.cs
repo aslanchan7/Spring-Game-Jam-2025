@@ -28,7 +28,6 @@ public class DryingRack : MonoBehaviour
             if (elapsedTime >= completionTime)
             {
                 // Drying Complete
-                Debug.Log("Drying Complete");
                 elapsedTime = 0f;
                 progressBar.gameObject.SetActive(false);
             }
