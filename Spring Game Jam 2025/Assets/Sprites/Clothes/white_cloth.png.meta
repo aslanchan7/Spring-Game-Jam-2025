@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aac14a6ed46f3144284e872dee182c20
+guid: 27005df9996040c409ac8750f551084b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5569612184652647964
-    second: hat_box_0
+      213: 6115513315853875825
+    second: white_cloth_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hat_box_0
+      name: white_cloth_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 48
-        height: 48
+        x: 6
+        y: 3
+        width: 22
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e177152a33c4b2b0800000000000000
-      internalID: -5569612184652647964
+      spriteID: 17a34aa95faaed450800000000000000
+      internalID: 6115513315853875825
       vertices: []
       indices: 
       edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      white_cloth_0: 6115513315853875825
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

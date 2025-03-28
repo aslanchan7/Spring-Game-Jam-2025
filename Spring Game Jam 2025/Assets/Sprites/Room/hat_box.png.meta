@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff5750b350c594142965c63d5eac15a2
+guid: aac14a6ed46f3144284e872dee182c20
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2095096000992264822
-    second: pants_box_0
+      213: -5569612184652647964
+    second: hat_box_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pants_box_0
+      name: hat_box_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a8db3829949bce2e0800000000000000
-      internalID: -2095096000992264822
+      spriteID: 4e177152a33c4b2b0800000000000000
+      internalID: -5569612184652647964
       vertices: []
       indices: 
       edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      hat_box_0: -5569612184652647964
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
