@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aac14a6ed46f3144284e872dee182c20
+guid: f2b97e1c7fcfbf94ab9f64e1a7aa2aa8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5569612184652647964
-    second: hat_box_0
+      213: -1801836423433056837
+    second: blue_cloth_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,9 +48,9 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  spriteMeshType: 0
+  alignment: 9
+  spritePivot: {x: 0.50968987, y: 0.7745477}
   spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hat_box_0
+      name: blue_cloth_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 48
-        height: 48
+        x: 6
+        y: 3
+        width: 22
+        height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e177152a33c4b2b0800000000000000
-      internalID: -5569612184652647964
+      spriteID: bbd89e5c1579ef6e0800000000000000
+      internalID: -1801836423433056837
       vertices: []
       indices: 
       edges: []
@@ -126,7 +126,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      hat_box_0: -5569612184652647964
+      blue_cloth_0: -1801836423433056837
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

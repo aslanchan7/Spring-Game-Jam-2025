@@ -5,11 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class DraggableFoldedClothing : DragDroppable
+public class FoldedClothing : DragDroppable
 {
-    [SerializeField] GameObject clothing;
-
-    public PaintingTable table;
+    [SerializeField] private GameObject clothing;
+    private PaintingTable table;
 
     void Start()
     {
@@ -60,17 +59,17 @@ public class DraggableFoldedClothing : DragDroppable
                     return;
                 }
             }
-            else if (hit.collider.CompareTag("Drying Rack"))
-            {
-                if (hit.collider.transform.childCount == 1)
-                {
-                    // Instantiate the shirt prefab
-                    GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
-                    instantiatedObject.transform.localPosition = new Vector2(0, -0.45f);
-                    Destroy(gameObject);
-                    return;
-                }
-            }
+            // else if (hit.collider.CompareTag("Drying Rack"))
+            // {
+            //     if (hit.collider.transform.childCount == 1)
+            //     {
+            //         // Instantiate the shirt prefab
+            //         GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
+            //         instantiatedObject.transform.localPosition = new Vector2(0, -0.45f);
+            //         Destroy(gameObject);
+            //         return;
+            //     }
+            // }
             else if (hit.collider.CompareTag("Trash Can"))
             {
                 Destroy(gameObject);

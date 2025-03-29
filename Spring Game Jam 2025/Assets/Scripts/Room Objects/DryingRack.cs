@@ -30,10 +30,12 @@ public class DryingRack : MonoBehaviour
                 // Drying Complete
                 elapsedTime = 0f;
                 progressBar.gameObject.SetActive(false);
+
+                GetComponentInChildren<Clothing>().dry = true;
             }
         }
 
-        if (elapsedTime == 0f)
+        if (elapsedTime == 0f || transform.childCount == 1)
         {
             progressBar.gameObject.SetActive(false);
         }

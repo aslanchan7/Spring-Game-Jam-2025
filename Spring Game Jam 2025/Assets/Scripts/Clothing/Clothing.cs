@@ -5,14 +5,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class DraggableClothing : DragDroppable
+public class Clothing : DragDroppable
 {
-    [SerializeField] GameObject clothing;
+    private PaintingTable table;
 
-    public PaintingTable table;
+    public bool dry = false;
+    public DrawScript drawScript;
+
+    public ClothingItem clothingItem;
 
     void Start()
     {
+        table = FindAnyObjectByType<PaintingTable>();
+        drawScript = GetComponent<DrawScript>();
+    }
+
+    public byte[] getPixels()
+    {
+        return drawScript.pixels;
     }
 
     public override IEnumerator DragUpdate(GameObject clickedObject)
@@ -61,7 +71,7 @@ public class DraggableClothing : DragDroppable
             raycastResult.gameObject.TryGetComponent<OrderBox>(out var orderBoxComponent);
             if (orderBoxComponent != null)
             {
-                orderBoxComponent.TrySell(gameObject);
+                orderBoxComponent.TrySell(gameObject, clothingItem, dry, getPixels());
             }
         }
 
@@ -77,6 +87,7 @@ public class DraggableClothing : DragDroppable
                 {
                     gameObject.transform.parent = hit.collider.transform;
                     transform.localPosition = new Vector2(0, 1.4f);
+                    dry = false;
                     return;
                 }
             }

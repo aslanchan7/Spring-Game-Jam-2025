@@ -3,51 +3,76 @@ using UnityEngine.InputSystem;
 
 public class DrawScript : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
     private new Camera camera;
+    private PaintingTable table;
 
-    public Sprite originalSprite;
+    public SpriteRenderer spriteRenderer;
+    public Sprite referenceSprite;
 
     private static int width, height;
 
-    private byte[] pixels;
+    [HideInInspector] public byte[] pixels;
 
     private Vector2 lastMousePosition = new Vector2(0, 0);
     private bool mouseLastPressed = false;
 
-    private PaintingTable table;
+    [HideInInspector] public static readonly Color black = Color.black;
+    [HideInInspector] public static readonly Color transparent = Color.clear;
+
+    [HideInInspector] public static readonly Color shirtWhite = Color.white;
+    [HideInInspector] public static readonly Color pantsBlue = new Color32(63, 63, 116, 255);
+    [HideInInspector] public static readonly Color hatRed = new Color32(217, 87, 99, 255);
+
+    [HideInInspector] public static readonly Color sprayGreen = new Color32(106, 190, 48, 255);
+    [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255);
+    [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255);
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        camera = FindAnyObjectByType<Camera>();
-        Color[] block = originalSprite.texture.GetPixels((int) System.Math.Ceiling(originalSprite.textureRect.x), 
-			                                             (int) System.Math.Ceiling(originalSprite.textureRect.y), 
-			                                             (int) System.Math.Ceiling(originalSprite.textureRect.width), 
-			                                             (int) System.Math.Ceiling(originalSprite.textureRect.height));
-        width = (int) System.Math.Ceiling(originalSprite.textureRect.width);
-        height = (int) System.Math.Ceiling(originalSprite.textureRect.height);
+        camera = FindFirstObjectByType<Camera>();
+        table = FindFirstObjectByType<PaintingTable>();
+
+        Color[] block = referenceSprite.texture.GetPixels((int) System.Math.Ceiling(referenceSprite.textureRect.x), 
+			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.y), 
+			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.width), 
+			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.height));
+        width = (int) System.Math.Ceiling(referenceSprite.textureRect.width);
+        height = (int) System.Math.Ceiling(referenceSprite.textureRect.height);
         pixels = new byte[width * height];
         for (int i = 0; i < block.Length; i++) {
             if (block[i].a == 0) pixels[i] = 0;
-            else if (block[i] == Color.black) pixels[i] = 1;
-            else pixels[i] = 2;
+            else if (block[i] == black) pixels[i] = 1;
+            else if (block[i] == shirtWhite) pixels[i] = 4;
+            else if (block[i] == pantsBlue) pixels[i] = 5;
+            else if (block[i] == hatRed) pixels[i] = 6;
+            else pixels[i] = 0;
         }
-        table = FindAnyObjectByType<PaintingTable>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    // Generates a sprite based on the pixel array
+    public Sprite generateSprite()
+    {
         Texture2D tmpTexture = new Texture2D(width, height);
 
         for (int i = 0; i < pixels.Length; i++) {
-            if (pixels[i] == 0) tmpTexture.SetPixel(i % width, i / width, Color.clear);
-            else if (pixels[i] == 1) tmpTexture.SetPixel(i % width, i / width, Color.black);
-            else if (pixels[i] == 2) tmpTexture.SetPixel(i % width, i / width, Color.white);
-            else if (pixels[i] == 3) tmpTexture.SetPixel(i % width, i / width, new Color32(106, 190, 48, 255));
-            else if (pixels[i] == 4) tmpTexture.SetPixel(i % width, i / width, new Color32(172, 50, 50, 255));
-            else if (pixels[i] == 5) tmpTexture.SetPixel(i % width, i / width, new Color32(99, 155, 255, 255));
+            if (pixels[i] == 0) tmpTexture.SetPixel(i % width, i / width, transparent);
+            else if (pixels[i] == 1) tmpTexture.SetPixel(i % width, i / width, black);
+
+            else if (pixels[i] == 4) tmpTexture.SetPixel(i % width, i / width, shirtWhite);
+            else if (pixels[i] == 5) tmpTexture.SetPixel(i % width, i / width, pantsBlue);
+            else if (pixels[i] == 6) tmpTexture.SetPixel(i % width, i / width, hatRed);
+
+            else if (pixels[i] == 32) tmpTexture.SetPixel(i % width, i / width, new Color32(106, 190, 48, 255));
+            else if (pixels[i] == 33) tmpTexture.SetPixel(i % width, i / width, new Color32(172, 50, 50, 255));
+            else if (pixels[i] == 34) tmpTexture.SetPixel(i % width, i / width, new Color32(99, 155, 255, 255));
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace)) {
@@ -59,7 +84,12 @@ public class DrawScript : MonoBehaviour
         tmpTexture.filterMode = FilterMode.Point;
         tmpTexture.Apply(false, true);
 
-        spriteRenderer.sprite = Sprite.Create(tmpTexture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 10);
+        return Sprite.Create(tmpTexture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 10);
+    }
+
+    private void updateSprite()
+    {
+        if (spriteRenderer) spriteRenderer.sprite = generateSprite();
     }
 
     void OnMouseOver()
@@ -96,6 +126,7 @@ public class DrawScript : MonoBehaviour
             brushPosition(mousePosition, table.currentPaint);
             lastMousePosition = mousePosition;
             mouseLastPressed = true;
+            updateSprite();
         } else {
             mouseLastPressed = false;
         }
