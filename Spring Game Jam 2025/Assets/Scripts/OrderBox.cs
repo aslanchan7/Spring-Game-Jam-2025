@@ -3,6 +3,7 @@ using UnityEngine;
 public class OrderBox : MonoBehaviour
 {
     [HideInInspector] public Order order;
+    public OrderManager orderManager;
 
     public void TrySell(GameObject item)
     {
@@ -11,6 +12,7 @@ public class OrderBox : MonoBehaviour
             // Sell Item
             Destroy(item);
             Destroy(gameObject);
+            OrderManager.Instance.orders.Remove(order);
         }
     }
 
