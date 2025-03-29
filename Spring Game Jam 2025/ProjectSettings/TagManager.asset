@@ -7,6 +7,7 @@ TagManager:
   - Clothing Box
   - Painting Table
   - Drying Rack
+  - Trash Can
   layers:
   - Default
   - TransparentFX
