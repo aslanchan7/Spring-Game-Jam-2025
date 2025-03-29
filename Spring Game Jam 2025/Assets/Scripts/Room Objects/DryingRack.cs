@@ -3,15 +3,27 @@ using UnityEngine.UI;
 
 public class DryingRack : MonoBehaviour
 {
-    [SerializeField] float completionTime;
+    [HideInInspector] public float CompletionTime;
     [SerializeField] Slider progressBar;
+    private int currUpgradeIndex;
     private float startTime;
     private float elapsedTime;
     private int lastFrameChildCount = 0;
 
+    void OnEnable()
+    {
+        UpgradeEventManager.UpgradeDryingSpeed += OnUpgradeDryingSpeed;
+    }
+
+    void OnDisable()
+    {
+        UpgradeEventManager.UpgradeDryingSpeed -= OnUpgradeDryingSpeed;
+    }
+
     void Start()
     {
-
+        currUpgradeIndex = 0;
+        CompletionTime = UpgradeMenu.Instance.DryerUpgrades[currUpgradeIndex];
     }
 
     void Update()
@@ -25,7 +37,7 @@ public class DryingRack : MonoBehaviour
         {
             elapsedTime = Time.time - startTime;
 
-            if (elapsedTime >= completionTime)
+            if (elapsedTime >= CompletionTime)
             {
                 // Drying Complete
                 elapsedTime = 0f;
@@ -42,9 +54,17 @@ public class DryingRack : MonoBehaviour
         else
         {
             progressBar.gameObject.SetActive(true);
-            progressBar.value = Mathf.Clamp01(elapsedTime / completionTime);
+            progressBar.value = Mathf.Clamp01(elapsedTime / CompletionTime);
         }
 
         lastFrameChildCount = transform.childCount;
+
+        Debug.Log(CompletionTime);
+    }
+
+    private void OnUpgradeDryingSpeed()
+    {
+        if (currUpgradeIndex == UpgradeMenu.Instance.DryerUpgrades.Length - 1) return;
+        CompletionTime = UpgradeMenu.Instance.DryerUpgrades[++currUpgradeIndex];
     }
 }
