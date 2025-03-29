@@ -69,13 +69,15 @@ public class OrderManager : MonoBehaviour
         for (int i = 0; i < imprints.Length; i++)
         {
             Pattern pattern;
-            do {
-                pattern = (Pattern) Random.Range(0, 3);
+            do
+            {
+                pattern = (Pattern)Random.Range(0, 3);
             } while (patternsUsed.Contains(pattern));
 
             PatternColor patternColor;
-            do {
-                patternColor = (PatternColor) Random.Range(0, 3);
+            do
+            {
+                patternColor = (PatternColor)Random.Range(0, 3);
             } while (colorsUsed.Contains(patternColor));
 
             imprints[i] = new Imprint(patternColor, pattern);
@@ -108,6 +110,8 @@ public class OrderManager : MonoBehaviour
 
     public void StartNextOrder()
     {
+        if (nextOrders.Count == 0) return;
+
         currentOrder = nextOrders.Dequeue();
 
         // Change the OrderBox settings for this new current order
