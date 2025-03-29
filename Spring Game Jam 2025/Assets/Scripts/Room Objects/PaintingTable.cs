@@ -6,7 +6,7 @@ public class PaintingTable : MonoBehaviour
 
     public byte currentPaint = 0;
 
-    public static bool[] allTrueStencil = new bool[64 * 64];
+    [HideInInspector] public static bool[] allTrueStencil = new bool[64 * 64];
     [HideInInspector] public StencilScript activeStencil;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,7 +21,11 @@ public class PaintingTable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Event current = Event.current;
+
+        if (currentPaint > 0 && Input.GetMouseButtonUp(0)) {
+            currentPaint = 0;
+        }
     }
 
     public bool[] getStencilMap()

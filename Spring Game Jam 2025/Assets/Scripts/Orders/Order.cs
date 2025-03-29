@@ -4,14 +4,16 @@ using System.IO;
 public class Order
 {
     public ClothingItem ClothingItem;
-    public Pattern Pattern;
-    public PatternColor PatternColor;
+    public Imprint[] Imprints;
 
-    public Order(ClothingItem clothingItem, Pattern pattern, PatternColor patternColor)
+    private static readonly bool[] stripeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/stripe_stencil.png"));
+    private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/top_half_stencil.png"));
+    private static readonly bool[] bottomHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/bottom_half_stencil.png"));
+
+    public Order(ClothingItem clothingItem, Imprint[] imprints)
     {
         this.ClothingItem = clothingItem;
-        this.Pattern = pattern;
-        this.PatternColor = patternColor;
+        this.Imprints = imprints;
     }
 
     // Generates a grid of bytes that represent a correct match
@@ -33,9 +35,26 @@ public class Order
 
         byte[] pixels = new byte[64 * 64];
 
-        for (int i = 0; i < clothingPixels.Length; i++) {
+        for (int i = 0; i < clothingPixels.Length; i++)
+        {
             if (clothingPixels[i] == DrawScript.black) pixels[i] = 1;
             else if (clothingPixels[i] == DrawScript.shirtWhite || clothingPixels[i] == DrawScript.pantsBlue || clothingPixels[i] == DrawScript.hatRed) pixels[i] = 32;
+        }
+
+        for (int i = 0; i < Imprints.Length; i++)
+        {
+            Pattern pattern = Imprints[i].Pattern;
+            PatternColor patternColor = Imprints[i].PatternColor;
+
+            bool[] stencil = getStencilFromPattern(pattern);
+            byte colorcode = getColorCodeFromPatternColor(patternColor);
+
+            for (int j = 0; j < stencil.Length; j++)
+            {
+                if (!stencil[j]) continue;
+                if (clothingPixels[j] == DrawScript.black || clothingPixels[j] == DrawScript.transparent) continue;
+                else pixels[j] = colorcode;
+            }
         }
 
         return pixels;
@@ -61,6 +80,45 @@ public class Order
 
         return (float) correctPixels / totalPixels;
     }
+
+    public static Color[] getColorsFromFile(string file)
+    {
+        byte[] image = File.ReadAllBytes(file);
+
+        Texture2D tmpTexture = new Texture2D(64, 64);
+        tmpTexture.LoadImage(image);
+        Color[] pixels = tmpTexture.GetPixels();
+
+        return pixels;
+    }
+
+    public bool[] getStencilFromPattern(Pattern pattern)
+    {
+        if (pattern == Pattern.Striped) return stripeStencil;
+        else if (pattern == Pattern.TopHalf) return topHalfStencil;
+        else if (pattern == Pattern.BottomHalf) return bottomHalfStencil;
+        else return PaintingTable.allTrueStencil;
+    }
+
+    public byte getColorCodeFromPatternColor(PatternColor patternColor)
+    {
+        if (patternColor == PatternColor.Green) return 32;
+        else if (patternColor == PatternColor.Red) return 33;
+        else if (patternColor == PatternColor.Blue) return 34;
+        else return 1;
+    }
+}
+
+public class Imprint
+{
+    public PatternColor PatternColor;
+    public Pattern Pattern;
+
+    public Imprint(PatternColor patternColor, Pattern pattern)
+    {
+        this.PatternColor = patternColor;
+        this.Pattern = pattern;
+    }
 }
 
 public enum ClothingItem
@@ -72,14 +130,14 @@ public enum ClothingItem
 
 public enum Pattern
 {
-    None,
     Striped,
-    Clover
+    TopHalf,
+    BottomHalf
 }
 
 public enum PatternColor
 {
+    Green,
     Red,
-    Blue,
-    Yellow
+    Blue
 }

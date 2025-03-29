@@ -60,9 +60,28 @@ public class OrderManager : MonoBehaviour
     private Order GenerateRandomOrder()
     {
         ClothingItem clothingItem = ClothingItem.Shirt;
-        Pattern pattern = (Pattern)Random.Range(0, 3);
-        PatternColor patternColor = (PatternColor)Random.Range(0, 3);
-        Order order = new(clothingItem, pattern, patternColor);
+        int imprintCount = Random.Range(0, 3);
+        Imprint[] imprints = new Imprint[imprintCount];
+
+        HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
+        HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
+
+        for (int i = 0; i < imprints.Length; i++)
+        {
+            Pattern pattern;
+            do {
+                pattern = (Pattern) Random.Range(0, 3);
+            } while (patternsUsed.Contains(pattern));
+
+            PatternColor patternColor;
+            do {
+                patternColor = (PatternColor) Random.Range(0, 3);
+            } while (colorsUsed.Contains(patternColor));
+
+            imprints[i] = new Imprint(patternColor, pattern);
+        }
+
+        Order order = new(clothingItem, imprints);
         return order;
     }
 

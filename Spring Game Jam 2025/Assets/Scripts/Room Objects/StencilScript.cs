@@ -17,14 +17,7 @@ public class StencilScript : MonoBehaviour
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-        Color[] block = referenceSprite.texture.GetPixels((int) System.Math.Ceiling(referenceSprite.textureRect.x), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.y), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.width), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.height));
-        for (int i = 0; i < block.Length; i++) {
-            if (block[i].a != 1) stencilMap[i] = true;
-            else stencilMap[i] = false;
-        }
+        stencilMap = generateStencilFromSprite(referenceSprite);
     }
 
     // Update is called once per frame
@@ -43,5 +36,26 @@ public class StencilScript : MonoBehaviour
     {
         spriteRenderer.enabled = false;
         active = false;
+    }
+
+    public static bool[] generateStencilFromSprite(Sprite sprite)
+    {
+        Color[] block = sprite.texture.GetPixels((int) System.Math.Ceiling(sprite.textureRect.x), 
+			                                              (int) System.Math.Ceiling(sprite.textureRect.y), 
+			                                              (int) System.Math.Ceiling(sprite.textureRect.width), 
+			                                              (int) System.Math.Ceiling(sprite.textureRect.height));
+        return generateStencilFromColors(block);
+    }
+
+    public static bool[] generateStencilFromColors(Color[] colors)
+    {
+        bool[] stencilMap = new bool[64 * 64];
+
+        for (int i = 0; i < colors.Length; i++) {
+            if (colors[i].a != 1) stencilMap[i] = true;
+            else stencilMap[i] = false;
+        }
+
+        return stencilMap;
     }
 }
