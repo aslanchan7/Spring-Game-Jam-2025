@@ -16,6 +16,8 @@ public class DrawScript : MonoBehaviour
     private Vector2 lastMousePosition = new Vector2(0, 0);
     private bool mouseLastPressed = false;
 
+    public bool applyTableStencil = true;
+
     [HideInInspector] public static readonly Color black = Color.black; // 0
     [HideInInspector] public static readonly Color transparent = Color.clear; // 1
 
@@ -133,6 +135,7 @@ public class DrawScript : MonoBehaviour
     }
 
     void brushPosition(Vector2 mousePosition, byte color) {
+        bool[] stencil = table.getStencilMap();
         if (mousePosition.x >= 0 && mousePosition.x < 1 && mousePosition.y >= 0 && mousePosition.y < 1) {
             int pixelX = (int) (mousePosition.x * width);
             int pixelY = (int) (mousePosition.y * height);
@@ -140,13 +143,14 @@ public class DrawScript : MonoBehaviour
                 if (i == 0 || i == 1 || i == 5 || i == 6 || i == 7 || i == 13 || i == 35 || i == 41 || i == 42 || i == 43 || i == 47 || i == 48) continue;
                 int newPixelX = pixelX - 3 + (i % 7);
                 int newPixelY = pixelY - 3 + (i / 7);
-                paintPixel(newPixelX, newPixelY, color);
+                paintPixel(newPixelX, newPixelY, color, stencil);
             }
         }
     }
 
-    void paintPixel(int x, int y, byte color) {
+    void paintPixel(int x, int y, byte color, bool[] stencil) {
         if (x < 0 || x >= width || y < 0 || y >= height) return;
+        if (applyTableStencil && !stencil[x + (y * width)]) return;
         int pixel = x + (y * width);
         if (pixels[pixel] >= 2) pixels[pixel] = color;
     }

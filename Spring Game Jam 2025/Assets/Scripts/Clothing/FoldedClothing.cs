@@ -50,11 +50,11 @@ public class FoldedClothing : DragDroppable
             if (hit.collider.CompareTag("Painting Table"))
             {
 
-                if (hit.collider.transform.childCount == 0)
+                if (!hit.collider.GetComponentInChildren<DragDroppable>())
                 {
                     // Instantiate the shirt prefab
                     GameObject instantiatedObject = Instantiate(clothing, hit.transform, false);
-                    instantiatedObject.transform.localPosition = new Vector2(0, 1.4f);
+                    instantiatedObject.transform.localPosition = new Vector2(0, 1f);
                     Destroy(gameObject);
                     return;
                 }
@@ -79,7 +79,7 @@ public class FoldedClothing : DragDroppable
 
         if (transform.parent.CompareTag("Painting Table"))
         {
-            transform.localPosition = new Vector2(0, 1.4f);
+            transform.localPosition = new Vector2(0, 1f);
             return;
         }
         else if (transform.parent.CompareTag("Drying Rack"))

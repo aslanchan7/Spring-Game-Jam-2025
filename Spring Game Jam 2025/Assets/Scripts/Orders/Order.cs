@@ -35,7 +35,7 @@ public class Order
 
         for (int i = 0; i < clothingPixels.Length; i++) {
             if (clothingPixels[i] == DrawScript.black) pixels[i] = 1;
-            if (clothingPixels[i] == DrawScript.shirtWhite || clothingPixels[i] == DrawScript.pantsBlue || clothingPixels[i] == DrawScript.hatRed) pixels[i] = 32;
+            else if (clothingPixels[i] == DrawScript.shirtWhite || clothingPixels[i] == DrawScript.pantsBlue || clothingPixels[i] == DrawScript.hatRed) pixels[i] = 32;
         }
 
         return pixels;

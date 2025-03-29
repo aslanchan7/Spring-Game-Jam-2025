@@ -27,9 +27,12 @@ public class Clothing : DragDroppable
 
     public override IEnumerator DragUpdate(GameObject clickedObject)
     {
-        table = FindAnyObjectByType<PaintingTable>();
         if (table.currentPaint != 0)
         {
+            yield break;
+        }
+        if (gameObject.transform.parent.CompareTag("Painting Table") && table.activeStencil) {
+            table.setActiveStencil(table.activeStencil.id);
             yield break;
         }
         OnStartDrag();
@@ -82,18 +85,17 @@ public class Clothing : DragDroppable
         {
             if (hit.collider.CompareTag("Painting Table"))
             {
-
-                if (hit.collider.transform.childCount == 0 || hit.collider.transform.GetChild(0) == this.transform)
+                if (!hit.collider.GetComponentInChildren<DragDroppable>() || hit.collider.transform == this.transform.parent)
                 {
                     gameObject.transform.parent = hit.collider.transform;
-                    transform.localPosition = new Vector2(0, 1.4f);
+                    transform.localPosition = new Vector2(0, 1f);
                     dry = false;
                     return;
                 }
             }
             else if (hit.collider.CompareTag("Drying Rack"))
             {
-                if (hit.collider.transform.childCount == 1 || hit.collider.transform.GetChild(1) == this.transform)
+                if (!hit.collider.GetComponentInChildren<DragDroppable>() || hit.collider.transform == this.transform.parent)
                 {
                     gameObject.transform.parent = hit.collider.transform;
                     transform.localPosition = new Vector2(0, -0.45f);
@@ -109,7 +111,7 @@ public class Clothing : DragDroppable
 
         if (transform.parent.CompareTag("Painting Table"))
         {
-            transform.localPosition = new Vector2(0, 1.4f);
+            transform.localPosition = new Vector2(0, 1f);
             return;
         }
         else if (transform.parent.CompareTag("Drying Rack"))

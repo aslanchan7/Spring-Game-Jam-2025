@@ -54,6 +54,9 @@ TagManager:
   - name: Clothes
     uniqueID: 2047847071
     locked: 0
+  - name: Stencils
+    uniqueID: 3294002319
+    locked: 0
   - name: UI
     uniqueID: 2367389335
     locked: 0

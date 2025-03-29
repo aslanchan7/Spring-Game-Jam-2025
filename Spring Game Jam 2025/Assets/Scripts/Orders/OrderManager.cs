@@ -64,7 +64,7 @@ public class OrderManager : MonoBehaviour
 
     private Order GenerateRandomOrder()
     {
-        ClothingItem clothingItem = (ClothingItem)Random.Range(0, 3);
+        ClothingItem clothingItem = ClothingItem.Shirt;
         Pattern pattern = (Pattern)Random.Range(0, 3);
         PatternColor patternColor = (PatternColor)Random.Range(0, 3);
         Order order = new(clothingItem, pattern, patternColor);
