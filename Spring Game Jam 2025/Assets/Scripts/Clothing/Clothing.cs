@@ -31,7 +31,8 @@ public class Clothing : DragDroppable
         {
             yield break;
         }
-        if (gameObject.transform.parent.CompareTag("Painting Table") && table.activeStencil) {
+        if (gameObject.transform.parent.CompareTag("Painting Table") && table.activeStencil)
+        {
             table.setActiveStencil(table.activeStencil.id);
             yield break;
         }
@@ -49,6 +50,7 @@ public class Clothing : DragDroppable
 
     public override void OnDrag()
     {
+        // Raycast for UI Elements
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = Input.mousePosition;
         List<RaycastResult> raycastResults = new List<RaycastResult>();
@@ -63,6 +65,26 @@ public class Clothing : DragDroppable
                     raycastResult.gameObject.GetComponent<RectTransform>().localScale = new(1.05f, 1.05f, 1.05f);
                 }
             }
+        }
+
+        // Raycast for Physics Colliders
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        List<RaycastHit2D> hits = new();
+        Physics2D.Raycast(mousePos, Vector2.zero, filter, hits);
+        bool containsTrashCan = false;
+        foreach (var hit in hits)
+        {
+            if (hit.collider.CompareTag("Trash Can"))
+            {
+                hit.collider.GetComponent<SpriteRenderer>().sprite = hit.collider.GetComponent<TrashCanScript>().openSprite;
+                gameObject.GetComponent<SpriteRenderer>().color = new(1f, 1f, 1f, 0.3f);
+                containsTrashCan = true;
+            }
+        }
+
+        if (!containsTrashCan)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new(1f, 1f, 1f, 1f);
         }
     }
 

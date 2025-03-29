@@ -1716,10 +1716,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.15665236
-    y: 0.15593706
-    width: 0.6866953
-    height: 0.6866953
+    x: 0.13726602
+    y: 0.02002002
+    width: 0.7260352
+    height: 0.9609609
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2007,7 +2007,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1157149c8bb516a4a9e6485227a056f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 1056004439}
+  closedSprite: {fileID: -231351948926518342, guid: da52ff004a74ec445971619b82e1c6b4, type: 3}
+  openSprite: {fileID: 21300000, guid: 93788e851d30d404995dc1e5588ff1a4, type: 3}
 --- !u!95 &1123897074
 Animator:
   serializedVersion: 7

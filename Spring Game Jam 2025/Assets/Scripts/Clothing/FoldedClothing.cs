@@ -17,7 +17,8 @@ public class FoldedClothing : DragDroppable
     public override IEnumerator DragUpdate(GameObject clickedObject)
     {
         table = FindAnyObjectByType<PaintingTable>();
-        if (table.currentPaint != 0) {
+        if (table.currentPaint != 0)
+        {
             yield break;
         }
         OnStartDrag();
@@ -34,10 +35,16 @@ public class FoldedClothing : DragDroppable
 
     public override void OnDrag()
     {
-        PointerEventData pointerEventData = new(EventSystem.current);
-        List<RaycastResult> raycasts = new();
-        EventSystem.current.RaycastAll(pointerEventData, raycasts);
-        // Debug.Log(raycasts.Count);
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        List<RaycastHit2D> hits = new();
+        Physics2D.Raycast(mousePos, Vector2.zero, filter, hits);
+        foreach (var hit in hits)
+        {
+            if (hit.collider.CompareTag("Trash Can"))
+            {
+                hit.collider.GetComponent<SpriteRenderer>().sprite = hit.collider.GetComponent<TrashCanScript>().openSprite;
+            }
+        }
     }
 
     public override void OnEndDrag()
