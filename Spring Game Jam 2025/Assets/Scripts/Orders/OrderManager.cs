@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OrderManager : MonoBehaviour
 {
@@ -13,9 +14,9 @@ public class OrderManager : MonoBehaviour
     [Header("Order Settings")]
     [SerializeField] float orderInterval; // # seconds between each order
     [SerializeField] int maxOrderNum;
-    private float lastOrderTime;
     private float timeToNextOrder;
-    public List<Order> orders = new();
+    [HideInInspector] public OrderBox currentOrder;
+    [HideInInspector] public Queue<OrderBox> nextOrders = new();
 
     void Awake()
     {
@@ -38,28 +39,22 @@ public class OrderManager : MonoBehaviour
             Order order = GenerateRandomOrder();
 
             // Instantiate Order Box
-            CreateOrderBox(order);
+            OrderBox orderBox = CreateOrderBox(order);
 
             timeToNextOrder = orderInterval;
-            orders.Add(order);
+
+            nextOrders.Enqueue(orderBox);
         }
 
-        if (orders.Count < maxOrderNum)
+        if (nextOrders.Count + 1 < maxOrderNum)
         {
             timeToNextOrder -= Time.deltaTime;
         }
 
-        // if (Time.time - lastOrderTime >= orderInterval && orders.Count < maxOrderNum)
-        // {
-        //     // Make an order
-        //     Order order = GenerateRandomOrder();
-
-        //     // Instantiate Order Box
-        //     CreateOrderBox(order);
-
-        //     lastOrderTime = Time.time;
-        //     orders.Add(order);
-        // }
+        if (currentOrder == null)
+        {
+            StartNextOrder();
+        }
     }
 
     private Order GenerateRandomOrder()
@@ -71,17 +66,46 @@ public class OrderManager : MonoBehaviour
         return order;
     }
 
-    private void CreateOrderBox(Order order)
+    private OrderBox CreateOrderBox(Order order)
     {
         GameObject orderBox = Instantiate(orderBoxPrefab, ordersList.transform);
-        string orderPatternText = order.PatternColor.ToString() + " " + order.Pattern.ToString();
-        if (order.Pattern == Pattern.None)
-        {
-            orderPatternText = "No Pattern";
-        }
-        orderBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = order.ClothingItem.ToString();
-        orderBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = orderPatternText;
-
         orderBox.GetComponent<OrderBox>().order = order;
+
+        // Adjust size & color of the background box/panel
+        orderBox.GetComponent<RectTransform>().sizeDelta = new(150, 135);
+        Color panelColor = orderBox.GetComponent<Image>().color;
+        orderBox.GetComponent<Image>().color = new(panelColor.r, panelColor.g, panelColor.b, 0.5f);
+
+        // Adjust alpha of the image
+        Color spriteColor = orderBox.transform.GetChild(0).GetComponent<Image>().color;
+        orderBox.transform.GetChild(0).GetComponent<Image>().color = new(spriteColor.r, spriteColor.g,
+            spriteColor.b, 0.5f);
+
+        // Hide the timer text
+        orderBox.transform.GetChild(1).gameObject.SetActive(false);
+
+        return orderBox.GetComponent<OrderBox>();
+    }
+
+    public void StartNextOrder()
+    {
+        currentOrder = nextOrders.Dequeue();
+
+        // Change the OrderBox settings for this new current order
+        // Adjust size & color of the background box/panel
+        currentOrder.GetComponent<RectTransform>().sizeDelta = new(150, 150);
+        Color panelColor = currentOrder.GetComponent<Image>().color;
+        currentOrder.GetComponent<Image>().color = new(panelColor.r, panelColor.g, panelColor.b, 0.8f);
+
+        // Adjust alpha of the image
+        Color spriteColor = currentOrder.transform.GetChild(0).GetComponent<Image>().color;
+        currentOrder.transform.GetChild(0).GetComponent<Image>().color = new(spriteColor.r, spriteColor.g,
+            spriteColor.b, 1f);
+
+        // Hide the timer text
+        currentOrder.transform.GetChild(1).gameObject.SetActive(true);
+
+        // Start timer
+        TimerEventManager.OnTimerStart();
     }
 }
