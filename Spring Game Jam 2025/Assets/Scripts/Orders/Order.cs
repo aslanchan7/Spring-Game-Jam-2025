@@ -40,6 +40,12 @@ public class Order
         return pixels;
     }
 
+    // Generates a grid of bytes that represent a correct match
+    public Sprite generateSprite()
+    {
+        return DrawScript.generateSpriteFromPixels(generatePattern());
+    }
+
     public float getAccuracy(byte[] pixels)
     {
         byte[] patternPixels = generatePattern();

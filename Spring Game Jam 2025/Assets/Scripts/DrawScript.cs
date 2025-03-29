@@ -58,7 +58,7 @@ public class DrawScript : MonoBehaviour
     }
 
     // Generates a sprite based on the pixel array
-    public Sprite generateSprite()
+    public static Sprite generateSpriteFromPixels(byte[] pixels)
     {
         Texture2D tmpTexture = new Texture2D(width, height);
 
@@ -89,7 +89,7 @@ public class DrawScript : MonoBehaviour
 
     private void updateSprite()
     {
-        if (spriteRenderer) spriteRenderer.sprite = generateSprite();
+        if (spriteRenderer) spriteRenderer.sprite = generateSpriteFromPixels(pixels);
     }
 
     void OnMouseOver()
