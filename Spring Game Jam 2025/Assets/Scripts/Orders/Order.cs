@@ -43,7 +43,7 @@ public class Order
     // Generates a grid of bytes that represent a correct match
     public Sprite generateSprite()
     {
-        return DrawScript.generateSpriteFromPixels(generatePattern());
+        return DrawScript.generateSpriteFromPixels(generatePattern(), 64, 64);
     }
 
     public float getAccuracy(byte[] pixels)

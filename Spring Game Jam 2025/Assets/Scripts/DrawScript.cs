@@ -9,7 +9,7 @@ public class DrawScript : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Sprite referenceSprite;
 
-    private static int width, height;
+    private int width, height;
 
     [HideInInspector] public byte[] pixels;
 
@@ -58,7 +58,7 @@ public class DrawScript : MonoBehaviour
     }
 
     // Generates a sprite based on the pixel array
-    public static Sprite generateSpriteFromPixels(byte[] pixels)
+    public static Sprite generateSpriteFromPixels(byte[] pixels, int width, int height)
     {
         Texture2D tmpTexture = new Texture2D(width, height);
 
@@ -89,7 +89,7 @@ public class DrawScript : MonoBehaviour
 
     private void updateSprite()
     {
-        if (spriteRenderer) spriteRenderer.sprite = generateSpriteFromPixels(pixels);
+        if (spriteRenderer) spriteRenderer.sprite = generateSpriteFromPixels(pixels, width, height);
     }
 
     void OnMouseOver()
