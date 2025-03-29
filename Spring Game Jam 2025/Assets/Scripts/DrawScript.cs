@@ -16,16 +16,16 @@ public class DrawScript : MonoBehaviour
     private Vector2 lastMousePosition = new Vector2(0, 0);
     private bool mouseLastPressed = false;
 
-    [HideInInspector] public static readonly Color black = Color.black;
-    [HideInInspector] public static readonly Color transparent = Color.clear;
+    [HideInInspector] public static readonly Color black = Color.black; // 0
+    [HideInInspector] public static readonly Color transparent = Color.clear; // 1
 
-    [HideInInspector] public static readonly Color shirtWhite = Color.white;
-    [HideInInspector] public static readonly Color pantsBlue = new Color32(63, 63, 116, 255);
-    [HideInInspector] public static readonly Color hatRed = new Color32(217, 87, 99, 255);
+    [HideInInspector] public static readonly Color shirtWhite = Color.white; // 4
+    [HideInInspector] public static readonly Color pantsBlue = new Color32(63, 63, 116, 255); // 5
+    [HideInInspector] public static readonly Color hatRed = new Color32(217, 87, 99, 255); // 6
 
-    [HideInInspector] public static readonly Color sprayGreen = new Color32(106, 190, 48, 255);
-    [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255);
-    [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255);
+    [HideInInspector] public static readonly Color sprayGreen = new Color32(106, 190, 48, 255); // 32
+    [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255); // 33
+    [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255); // 34
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
