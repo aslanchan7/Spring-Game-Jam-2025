@@ -6,12 +6,13 @@ public class Order
     public ClothingItem ClothingItem;
     public Imprint[] Imprints;
     public PatternColor BaseColor;
+    public int SellPrice;
 
     private static readonly bool[] stripeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/stripe_stencil.png"));
     private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/top_half_stencil.png"));
     private static readonly bool[] bottomHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/bottom_half_stencil.png"));
 
-    public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints)
+    public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int SellPrice)
     {
         this.ClothingItem = clothingItem;
         this.BaseColor = baseColor;
@@ -23,7 +24,7 @@ public class Order
     {
         // Get original image
         byte[] image;
-        
+
         if (ClothingItem == ClothingItem.Shirt) image = File.ReadAllBytes("Assets/Sprites/Clothes/shirt.png");
         else if (ClothingItem == ClothingItem.Pants) image = File.ReadAllBytes("Assets/Sprites/Clothes/pants.png");
         else if (ClothingItem == ClothingItem.Hat) image = File.ReadAllBytes("Assets/Sprites/Clothes/hat.png");
@@ -74,13 +75,14 @@ public class Order
         if (patternPixels.Length != pixels.Length) return 0;
         int totalPixels = 0, correctPixels = 0;
 
-        for (int i = 0; i < patternPixels.Length; i++) {
+        for (int i = 0; i < patternPixels.Length; i++)
+        {
             if (patternPixels[i] <= 1) continue;
             else if (patternPixels[i] == pixels[i]) correctPixels++;
             totalPixels++;
         }
 
-        return (float) correctPixels / totalPixels;
+        return (float)correctPixels / totalPixels;
     }
 
     public static Color[] getColorsFromFile(string file)

@@ -14,6 +14,8 @@ public class OrderManager : MonoBehaviour
     [Header("Order Settings")]
     [SerializeField] float orderInterval; // # seconds between each order
     [SerializeField] int maxOrderNum;
+    [SerializeField] int[] sellPrices;
+    private int stencilUpgradeIndex;
     private float timeToNextOrder;
     [HideInInspector] public OrderBox currentOrder;
     [HideInInspector] public Queue<OrderBox> nextOrders = new();
@@ -28,6 +30,11 @@ public class OrderManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    void Start()
+    {
+        stencilUpgradeIndex = 0;
     }
 
     void Update()
@@ -66,7 +73,7 @@ public class OrderManager : MonoBehaviour
         HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
         HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
 
-        PatternColor baseColor = (PatternColor) Random.Range(0, 3);
+        PatternColor baseColor = (PatternColor)Random.Range(0, 3);
 
         colorsUsed.Add(baseColor);
 
@@ -75,7 +82,7 @@ public class OrderManager : MonoBehaviour
             Pattern pattern;
             do
             {
-                pattern = (Pattern) Random.Range(0, 3);
+                pattern = (Pattern)Random.Range(0, 3);
             } while (patternsUsed.Contains(pattern));
 
             PatternColor patternColor;
@@ -90,7 +97,10 @@ public class OrderManager : MonoBehaviour
             patternsUsed.Add(pattern);
         }
 
-        Order order = new(clothingItem, baseColor, imprints);
+        stencilUpgradeIndex = FindFirstObjectByType<StencilManager>().ActiveStencils - 1;
+        int sellPrice = sellPrices[stencilUpgradeIndex];
+
+        Order order = new(clothingItem, baseColor, imprints, sellPrice);
         return order;
     }
 
