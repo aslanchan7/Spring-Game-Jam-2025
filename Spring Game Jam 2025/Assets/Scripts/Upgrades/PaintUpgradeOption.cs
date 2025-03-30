@@ -5,7 +5,6 @@ public class PaintUpgradeOption : MonoBehaviour
 {
     [SerializeField] TMP_Text upgradeText;
     [SerializeField] TMP_Text priceText;
-    private int currUpgradeIndex = 0;
 
     void OnEnable()
     {
@@ -20,6 +19,7 @@ public class PaintUpgradeOption : MonoBehaviour
     private void UpgradePaintArea()
     {
         string[] paintUpgrades = UpgradeMenu.Instance.PaintAreaLevels;
+        int currUpgradeIndex = UpgradeMenu.Instance.PaintUpgradeIndex;
 
         // Update upgrade & price text
         string newUpgradeText;
@@ -32,6 +32,7 @@ public class PaintUpgradeOption : MonoBehaviour
         else
         {
             currUpgradeIndex++;
+            UpgradeMenu.Instance.PaintUpgradeIndex = currUpgradeIndex;
             newUpgradeText = paintUpgrades[currUpgradeIndex] + " --> " + paintUpgrades[currUpgradeIndex + 1];
             newPriceText = UpgradeMenu.Instance.PaintAreaUpgradePrices[currUpgradeIndex] + " G";
         }

@@ -5,9 +5,14 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public int Money;
+
+    [Header("Money")]
+    public int Money { get; private set; }
     public int AnimIncrements = 100; // The greater the number, the slower the anim
     public TMP_Text MoneyText;
+
+    public int TargetMoney;
+    public Timer RoundTimer;
 
     void Awake()
     {
@@ -56,5 +61,19 @@ public class GameManager : MonoBehaviour
             }
         }
         MoneyText.text = "$" + (int)finalMoney;
+    }
+
+    private void Update()
+    {
+        if (Money >= TargetMoney)
+        {
+            SetNewTargetMoney();
+        }
+    }
+
+    private void SetNewTargetMoney()
+    {
+        TargetMoney *= 2;
+        RoundTimer.TimeToDisplay = 120f;
     }
 }

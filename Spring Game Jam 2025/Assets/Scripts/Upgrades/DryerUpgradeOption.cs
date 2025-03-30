@@ -5,7 +5,6 @@ public class DryerUpgradeOption : MonoBehaviour
 {
     [SerializeField] TMP_Text upgradeText;
     [SerializeField] TMP_Text priceText;
-    private int currUpgradeIndex = 0;
 
     void OnEnable()
     {
@@ -20,6 +19,7 @@ public class DryerUpgradeOption : MonoBehaviour
     private void UpgradeDryingSpeed()
     {
         float[] dryerUpgrades = UpgradeMenu.Instance.DryerUpgrades;
+        int currUpgradeIndex = UpgradeMenu.Instance.DryerUpgradeIndex;
 
         // Update upgrade & price text
         string newUpgradeText;
@@ -32,6 +32,7 @@ public class DryerUpgradeOption : MonoBehaviour
         else
         {
             currUpgradeIndex++;
+            UpgradeMenu.Instance.DryerUpgradeIndex = currUpgradeIndex;
             newUpgradeText = dryerUpgrades[currUpgradeIndex] + "s --> " + dryerUpgrades[currUpgradeIndex + 1] + "s";
             newPriceText = UpgradeMenu.Instance.DryerUpgradePrices[currUpgradeIndex] + " G";
         }

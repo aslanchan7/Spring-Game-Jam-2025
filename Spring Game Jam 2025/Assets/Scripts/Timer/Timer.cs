@@ -5,8 +5,10 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     private TMP_Text timerText;
-    [SerializeField] private float timeToDisplay = 60f;
+    public float TimeToDisplay = 60f;
     private bool isRunning;
+    public enum TimerFormat { Minutes_Seconds, Seconds_Milli }
+    [SerializeField] private TimerFormat format;
 
     void Awake()
     {
@@ -32,15 +34,23 @@ public class Timer : MonoBehaviour
 
     private void EventManagerOnTimerStop() => isRunning = false;
 
-    private void EventManagerOnTimerUpdate(float value) => timeToDisplay += value;
+    private void EventManagerOnTimerUpdate(float value) => TimeToDisplay += value;
 
     void Update()
     {
         if (!isRunning) return;
-        if (timeToDisplay <= 0f) return;
-        timeToDisplay -= Time.deltaTime;
+        if (TimeToDisplay <= 0f) return;
+        TimeToDisplay -= Time.deltaTime;
 
-        TimeSpan timeSpan = TimeSpan.FromSeconds(timeToDisplay);
-        timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
+        TimeSpan timeSpan = TimeSpan.FromSeconds(TimeToDisplay);
+
+        if (format == TimerFormat.Minutes_Seconds)
+        {
+            timerText.text = timeSpan.ToString(@"mm\:ss");
+        }
+        else if (format == TimerFormat.Seconds_Milli)
+        {
+            timerText.text = timeSpan.ToString(@"ss\:ff");
+        }
     }
 }

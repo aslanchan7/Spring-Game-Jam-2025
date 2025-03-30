@@ -11,7 +11,7 @@ public class StencilManager : MonoBehaviour
 
     void UpgradeStencil()
     {
-        if (ActiveStencils >= UpgradeMenu.Instance.StencilUpgrades.Length) return;
+        if (ActiveStencils >= UpgradeMenu.Instance.StencilUpgrades.Length + 1) return;
         ActiveStencils++;
 
         for (int i = 0; i < ActiveStencils; i++)

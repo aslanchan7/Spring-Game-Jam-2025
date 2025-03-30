@@ -69,7 +69,7 @@ public class OrderManager : MonoBehaviour
     private Order GenerateRandomOrder()
     {
         Order order;
-        
+
         int imprintCount = Random.Range(0, System.Math.Min(stencilManager.ActiveStencils + 1, 3));
 
         do
@@ -81,7 +81,7 @@ public class OrderManager : MonoBehaviour
             HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
             HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
 
-            PatternColor baseColor = (PatternColor) Random.Range(0, 3);
+            PatternColor baseColor = (PatternColor)Random.Range(0, 3);
 
 
             colorsUsed.Add(baseColor);
@@ -91,7 +91,7 @@ public class OrderManager : MonoBehaviour
                 Pattern pattern;
                 do
                 {
-                    pattern = (Pattern) Random.Range(0, stencilManager.ActiveStencils);
+                    pattern = (Pattern)Random.Range(0, stencilManager.ActiveStencils);
                 } while (patternsUsed.Contains(pattern));
 
                 PatternColor patternColor;
@@ -110,7 +110,7 @@ public class OrderManager : MonoBehaviour
             int sellPrice = sellPrices[stencilUpgradeIndex];
 
             order = new(clothingItem, baseColor, imprints, sellPrice);
-            
+
         } while (!order.containsGreen());
 
         return order;

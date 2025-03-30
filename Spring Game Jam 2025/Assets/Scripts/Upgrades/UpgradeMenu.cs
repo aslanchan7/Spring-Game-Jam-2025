@@ -8,14 +8,17 @@ public class UpgradeMenu : MonoBehaviour
     [Header("Paint Area Upgrades")]
     public string[] PaintAreaLevels;
     public int[] PaintAreaUpgradePrices;
+    [HideInInspector] public int PaintUpgradeIndex = 0;
 
     [Header("Dryer Upgrades")]
     public float[] DryerUpgrades;
     public int[] DryerUpgradePrices;
+    [HideInInspector] public int DryerUpgradeIndex = 0;
 
     [Header("Stencil Upgrades")]
     public float[] StencilUpgrades;
     public int[] StencilUpgradePrices;
+    [HideInInspector] public int StencilUpgradeIndex = 0;
 
     void Awake()
     {
@@ -31,16 +34,22 @@ public class UpgradeMenu : MonoBehaviour
 
     public void UpgradePaintArea()
     {
+        if (GameManager.Instance.Money < PaintAreaUpgradePrices[PaintUpgradeIndex]) return;
+        GameManager.Instance.UpdateMoney(-PaintAreaUpgradePrices[PaintUpgradeIndex]);
         UpgradeEventManager.OnUpgradePaintArea();
     }
 
     public void UpgradeDryingSpeed()
     {
+        if (GameManager.Instance.Money < DryerUpgradePrices[DryerUpgradeIndex]) return;
+        GameManager.Instance.UpdateMoney(-DryerUpgradePrices[DryerUpgradeIndex]);
         UpgradeEventManager.OnUpgradeDryingSpeed();
     }
 
     public void UpgradeStencil()
     {
+        if (GameManager.Instance.Money < StencilUpgradePrices[StencilUpgradeIndex]) return;
+        GameManager.Instance.UpdateMoney(-StencilUpgradePrices[StencilUpgradeIndex]);
         UpgradeEventManager.OnUpgradeStencil();
     }
 

@@ -19,11 +19,12 @@ public class Order
     private static readonly bool[] shamrockStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/shamrock_stencil.png"));
     private static readonly bool[] unicycleStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/unicycle_stencil.png"));
 
-    public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int SellPrice)
+    public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int sellPrice)
     {
         this.ClothingItem = clothingItem;
         this.BaseColor = baseColor;
         this.Imprints = imprints;
+        this.SellPrice = sellPrice;
     }
 
     // Generates a grid of bytes that represent a correct match
