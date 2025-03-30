@@ -92,6 +92,18 @@ public class Order
         return (float)correctPixels / totalPixels;
     }
 
+    public bool containsGreen()
+    {
+        byte[] pixels = generatePattern();
+
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            if (pixels[i] == 32) return true;
+        }
+        
+        return false;
+    }
+
     public static Color[] getColorsFromFile(string file)
     {
         byte[] image = File.ReadAllBytes(file);

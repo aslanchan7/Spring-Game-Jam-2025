@@ -68,41 +68,51 @@ public class OrderManager : MonoBehaviour
 
     private Order GenerateRandomOrder()
     {
-        ClothingItem clothingItem = ClothingItem.Shirt;
+        Order order;
+        
         int imprintCount = Random.Range(0, System.Math.Min(stencilManager.ActiveStencils + 1, 3));
-        Imprint[] imprints = new Imprint[imprintCount];
 
-        HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
-        HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
-
-        PatternColor baseColor = (PatternColor) Random.Range(0, 3);
-
-        colorsUsed.Add(baseColor);
-
-        for (int i = 0; i < imprints.Length; i++)
+        do
         {
-            Pattern pattern;
-            do
+
+            ClothingItem clothingItem = ClothingItem.Shirt;
+            Imprint[] imprints = new Imprint[imprintCount];
+
+            HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
+            HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
+
+            PatternColor baseColor = (PatternColor) Random.Range(0, 3);
+
+
+            colorsUsed.Add(baseColor);
+
+            for (int i = 0; i < imprints.Length; i++)
             {
-                pattern = (Pattern) Random.Range(0, stencilManager.ActiveStencils);
-            } while (patternsUsed.Contains(pattern));
+                Pattern pattern;
+                do
+                {
+                    pattern = (Pattern) Random.Range(0, stencilManager.ActiveStencils);
+                } while (patternsUsed.Contains(pattern));
 
-            PatternColor patternColor;
-            do
-            {
-                patternColor = (PatternColor)Random.Range(0, 3);
-            } while (colorsUsed.Contains(patternColor));
+                PatternColor patternColor;
+                do
+                {
+                    patternColor = (PatternColor)Random.Range(0, 3);
+                } while (colorsUsed.Contains(patternColor));
 
-            imprints[i] = new Imprint(patternColor, pattern);
+                imprints[i] = new Imprint(patternColor, pattern);
 
-            colorsUsed.Add(patternColor);
-            patternsUsed.Add(pattern);
-        }
+                colorsUsed.Add(patternColor);
+                patternsUsed.Add(pattern);
+            }
 
-        stencilUpgradeIndex = FindFirstObjectByType<StencilManager>().ActiveStencils - 1;
-        int sellPrice = sellPrices[stencilUpgradeIndex];
+            stencilUpgradeIndex = FindFirstObjectByType<StencilManager>().ActiveStencils - 1;
+            int sellPrice = sellPrices[stencilUpgradeIndex];
 
-        Order order = new(clothingItem, baseColor, imprints, sellPrice);
+            order = new(clothingItem, baseColor, imprints, sellPrice);
+            
+        } while (!order.containsGreen());
+
         return order;
     }
 
