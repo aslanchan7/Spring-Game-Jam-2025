@@ -30,6 +30,7 @@ public class DrawScript : MonoBehaviour
     [HideInInspector] public static readonly Color sprayGreen = new Color32(106, 190, 48, 255); // 32
     [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255); // 33
     [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255); // 34
+    [HideInInspector] public static readonly Color sprayPurple = new Color32(151, 0, 160, 255); // 35
 
     public static bool[] smallSpray, mediumSpray, bigSpray, giantSpray, massiveSpray;
 
@@ -55,6 +56,10 @@ public class DrawScript : MonoBehaviour
             else if (block[i] == shirtWhite) pixels[i] = 4;
             else if (block[i] == pantsBlue) pixels[i] = 5;
             else if (block[i] == hatRed) pixels[i] = 6;
+            else if (block[i] == sprayGreen) pixels[i] = 32;
+            else if (block[i] == sprayRed) pixels[i] = 33;
+            else if (block[i] == sprayBlue) pixels[i] = 34;
+            else if (block[i] == sprayPurple) pixels[i] = 35;
             else pixels[i] = 0;
         }
 
@@ -103,15 +108,10 @@ public class DrawScript : MonoBehaviour
             else if (pixels[i] == 5) tmpTexture.SetPixel(i % width, i / width, pantsBlue);
             else if (pixels[i] == 6) tmpTexture.SetPixel(i % width, i / width, hatRed);
 
-            else if (pixels[i] == 32) tmpTexture.SetPixel(i % width, i / width, new Color32(106, 190, 48, 255));
-            else if (pixels[i] == 33) tmpTexture.SetPixel(i % width, i / width, new Color32(172, 50, 50, 255));
-            else if (pixels[i] == 34) tmpTexture.SetPixel(i % width, i / width, new Color32(99, 155, 255, 255));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Backspace)) {
-            for (int i = 0; i < pixels.Length; i++) {
-                if (pixels[i] >= 2) pixels[i] = 2;
-            }
+            else if (pixels[i] == 32) tmpTexture.SetPixel(i % width, i / width, sprayGreen);
+            else if (pixels[i] == 33) tmpTexture.SetPixel(i % width, i / width, sprayRed);
+            else if (pixels[i] == 34) tmpTexture.SetPixel(i % width, i / width, sprayBlue);
+            else if (pixels[i] == 35) tmpTexture.SetPixel(i % width, i / width, sprayPurple);
         }
 
         tmpTexture.filterMode = FilterMode.Point;

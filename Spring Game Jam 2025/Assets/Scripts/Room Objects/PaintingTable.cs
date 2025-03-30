@@ -10,6 +10,8 @@ public class PaintingTable : MonoBehaviour
     [HideInInspector] public static bool[] allTrueStencil = new bool[64 * 64];
     [HideInInspector] public StencilScript activeStencil;
 
+    public bool isTitleScreen = false;
+
     void OnEnable()
     {
         UpgradeEventManager.UpgradePaintArea += OnUpgradePaintArea;
@@ -34,7 +36,7 @@ public class PaintingTable : MonoBehaviour
     {
         Event current = Event.current;
 
-        if (currentPaint > 0 && Input.GetMouseButtonUp(0)) {
+        if (currentPaint > 0 && Input.GetMouseButtonUp(0) && !isTitleScreen) {
             currentPaint = 0;
         }
     }

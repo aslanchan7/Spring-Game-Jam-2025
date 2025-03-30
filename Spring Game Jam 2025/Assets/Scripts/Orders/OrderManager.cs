@@ -70,7 +70,7 @@ public class OrderManager : MonoBehaviour
     {
         Order order;
 
-        int imprintCount = Random.Range(0, System.Math.Min(stencilManager.ActiveStencils + 1, 3));
+        int imprintCount = Random.Range(0, System.Math.Min(stencilManager.ActiveStencils + 1, 4));
 
         do
         {
@@ -81,7 +81,7 @@ public class OrderManager : MonoBehaviour
             HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
             HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
 
-            PatternColor baseColor = (PatternColor)Random.Range(0, 3);
+            PatternColor baseColor = (PatternColor)Random.Range(0, 4);
 
 
             colorsUsed.Add(baseColor);
@@ -97,7 +97,7 @@ public class OrderManager : MonoBehaviour
                 PatternColor patternColor;
                 do
                 {
-                    patternColor = (PatternColor)Random.Range(0, 3);
+                    patternColor = (PatternColor)Random.Range(0, 4);
                 } while (colorsUsed.Contains(patternColor));
 
                 imprints[i] = new Imprint(patternColor, pattern);
