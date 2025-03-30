@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a7beddddaa1692d41be70ca149530c5e
+guid: 56f8f2f08e3996d4a95ebfbba4bdc611
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3623911360144788825
-    second: stencil_black_icon_0
+      213: -146787942347633452
+    second: stencil_squiggle_icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stencil_black_icon_0
+      name: stencil_squiggle_icon_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95dcee68e28ba4230800000000000000
-      internalID: 3623911360144788825
+      spriteID: 4dc0f07e42186fdf0800000000000000
+      internalID: -146787942347633452
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      stencil_black_icon_0: 3623911360144788825
+      stencil_squiggle_icon_0: -146787942347633452
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

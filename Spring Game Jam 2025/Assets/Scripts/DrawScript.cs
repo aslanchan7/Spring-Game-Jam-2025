@@ -19,23 +19,35 @@ public class DrawScript : MonoBehaviour
     private bool mouseLastPressed = false;
 
     public bool applyTableStencil = true;
+    public bool applyShirtStencil = false;
+    public bool completeWhenFilled = false;
+
+    public Animator flashAnimator;
 
     [HideInInspector] public static readonly Color black = Color.black; // 0
     [HideInInspector] public static readonly Color transparent = Color.clear; // 1
+    [HideInInspector] public static readonly Color shadow = new Color32(0, 0, 0, 128); // 2
 
     [HideInInspector] public static readonly Color shirtWhite = Color.white; // 4
     [HideInInspector] public static readonly Color pantsBlue = new Color32(63, 63, 116, 255); // 5
     [HideInInspector] public static readonly Color hatRed = new Color32(217, 87, 99, 255); // 6
+    
+    [HideInInspector] public static readonly Color stencilYellow = new Color32(251, 242, 54, 255); // 10
+    [HideInInspector] public static readonly Color stencilOrange = new Color32(223, 113, 38, 255); // 11
+    [HideInInspector] public static readonly Color tableBrown = new Color32(143, 86, 59, 255); // 12
+    
+    
 
     [HideInInspector] public static readonly Color sprayGreen = new Color32(106, 190, 48, 255); // 32
     [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255); // 33
     [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255); // 34
     [HideInInspector] public static readonly Color sprayPurple = new Color32(151, 0, 160, 255); // 35
 
-    public static bool[] smallSpray, mediumSpray, bigSpray, giantSpray, massiveSpray;
+    [HideInInspector] public static bool[] smallSpray, mediumSpray, bigSpray, giantSpray, massiveSpray;
 
     private static bool[] currentSpray;
 
+    private bool hasUpdated;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,9 +65,16 @@ public class DrawScript : MonoBehaviour
         for (int i = 0; i < block.Length; i++) {
             if (block[i].a == 0) pixels[i] = 0;
             else if (block[i] == black) pixels[i] = 1;
+            else if (block[i] == shadow) pixels[i] = 2;
+
             else if (block[i] == shirtWhite) pixels[i] = 4;
             else if (block[i] == pantsBlue) pixels[i] = 5;
             else if (block[i] == hatRed) pixels[i] = 6;
+
+            else if (block[i] == stencilYellow) pixels[i] = 10;
+            else if (block[i] == stencilOrange) pixels[i] = 11;
+            else if (block[i] == tableBrown) pixels[i] = 12;
+
             else if (block[i] == sprayGreen) pixels[i] = 32;
             else if (block[i] == sprayRed) pixels[i] = 33;
             else if (block[i] == sprayBlue) pixels[i] = 34;
@@ -93,6 +112,7 @@ public class DrawScript : MonoBehaviour
         {
             currentSpray = massiveSpray;
         }
+        paintWithMouse();
     }
 
     // Generates a sprite based on the pixel array
@@ -103,10 +123,15 @@ public class DrawScript : MonoBehaviour
         for (int i = 0; i < pixels.Length; i++) {
             if (pixels[i] == 0) tmpTexture.SetPixel(i % width, i / width, transparent);
             else if (pixels[i] == 1) tmpTexture.SetPixel(i % width, i / width, black);
+            else if (pixels[i] == 2) tmpTexture.SetPixel(i % width, i / width, shadow);
 
             else if (pixels[i] == 4) tmpTexture.SetPixel(i % width, i / width, shirtWhite);
             else if (pixels[i] == 5) tmpTexture.SetPixel(i % width, i / width, pantsBlue);
             else if (pixels[i] == 6) tmpTexture.SetPixel(i % width, i / width, hatRed);
+
+            else if (pixels[i] == 10) tmpTexture.SetPixel(i % width, i / width, stencilYellow);
+            else if (pixels[i] == 11) tmpTexture.SetPixel(i % width, i / width, stencilOrange);
+            else if (pixels[i] == 12) tmpTexture.SetPixel(i % width, i / width, tableBrown);
 
             else if (pixels[i] == 32) tmpTexture.SetPixel(i % width, i / width, sprayGreen);
             else if (pixels[i] == 33) tmpTexture.SetPixel(i % width, i / width, sprayRed);
@@ -125,22 +150,9 @@ public class DrawScript : MonoBehaviour
         if (spriteRenderer) spriteRenderer.sprite = generateSpriteFromPixels(pixels, width, height);
     }
 
-    void OnMouseOver()
-    {
-        paintWithMouse();
-    }
-
-    void OnMouseExit()
-    {
-        paintWithMouse();
-        mouseLastPressed = false;
-    }
-
     void paintWithMouse() {
-        if (!gameObject.transform.parent.CompareTag("Painting Table")) return;
-        if (table.currentPaint == 0) return;
         Mouse mouse = Mouse.current;
-        if (mouse.leftButton.isPressed)
+        if (mouse.leftButton.isPressed && gameObject.transform.parent.CompareTag("Painting Table") && table.currentPaint != 0 && spriteRenderer.enabled)
         {
             Vector2 mousePosition = mouse.position.ReadValue();
             mousePosition = camera.ScreenToWorldPoint(mousePosition);
@@ -159,7 +171,20 @@ public class DrawScript : MonoBehaviour
             brushPosition(mousePosition, table.currentPaint);
             lastMousePosition = mousePosition;
             mouseLastPressed = true;
-            updateSprite();
+            if (hasUpdated)
+            {
+                if (completeWhenFilled)
+                {
+                    float completion = getStencilCompletionForColor(table.currentPaint);
+                    if (completion >= 0.90 && completion < 1) {
+                        completeStencil(table.currentPaint);
+                        flashAnimator.Play("ShirtFlash");
+                        flashAnimator.Play("ShirtIdle");
+                    }
+                }
+                updateSprite();
+                hasUpdated = false;
+            }
         } else {
             mouseLastPressed = false;
         }
@@ -183,8 +208,13 @@ public class DrawScript : MonoBehaviour
     void paintPixel(int x, int y, byte color, bool[] stencil) {
         if (x < 0 || x >= width || y < 0 || y >= height) return;
         if (applyTableStencil && !stencil[x + (y * width)]) return;
+        if (applyShirtStencil && table.GetComponentInChildren<Clothing>() && !Order.shirtStencil[x + (y * width)]) return;
         int pixel = x + (y * width);
-        if (pixels[pixel] >= 2) pixels[pixel] = color;
+        if (pixels[pixel] >= 4) {
+            if (pixels[pixel] == color) return;
+            hasUpdated = true;
+            pixels[pixel] = color;
+        }
     }
 
     public static Color[] getColorsFromFile(string file)
@@ -210,6 +240,41 @@ public class DrawScript : MonoBehaviour
         }
 
         return output;
+    }
+
+    public float getStencilCompletionForColor(byte color)
+    {
+        bool[] stencil = table.getStencilMap();
+        int total = 0;
+        int correct = 0;
+
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            if (!stencil[i]) continue;
+            else if (pixels[i] < 4) continue;
+            else
+            {
+                total++;
+                if (pixels[i] == color) correct++;
+            }
+        }
+
+        return (float) correct / total;
+    }
+
+    public void completeStencil(byte color)
+    {
+        bool[] stencil = table.getStencilMap();
+
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            if (!stencil[i]) continue;
+            else if (pixels[i] < 4) continue;
+            else
+            {
+                pixels[i] = color;
+            }
+        }
     }
 }
 

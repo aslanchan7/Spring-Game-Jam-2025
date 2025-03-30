@@ -182,3 +182,5 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5537290860795115955}
   referenceSprite: {fileID: 21300000, guid: af61aae3cd7ebe14dafbdfa0c0d7f078, type: 3}
   pixels: 
+  applyTableStencil: 1
+  applyShirtStencil: 0
