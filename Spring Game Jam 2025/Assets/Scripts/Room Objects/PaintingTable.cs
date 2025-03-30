@@ -10,6 +10,16 @@ public class PaintingTable : MonoBehaviour
     [HideInInspector] public static bool[] allTrueStencil = new bool[64 * 64];
     [HideInInspector] public StencilScript activeStencil;
 
+    void OnEnable()
+    {
+        UpgradeEventManager.UpgradePaintArea += OnUpgradePaintArea;
+    }
+
+    void OnDisable()
+    {
+        UpgradeEventManager.UpgradePaintArea -= OnUpgradePaintArea;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,5 +73,26 @@ public class PaintingTable : MonoBehaviour
     {
         activeStencil.disable();
         activeStencil = null;
+    }
+
+    public void OnUpgradePaintArea()
+    {
+        switch (spraySize)
+        {
+            case Spray.Small:
+                spraySize = Spray.Medium;
+                break;
+            case Spray.Medium:
+                spraySize = Spray.Big;
+                break;
+            case Spray.Big:
+                spraySize = Spray.Giant;
+                break;
+            case Spray.Giant:
+                spraySize = Spray.Massive;
+                break;
+            default:
+                break;
+        }
     }
 }
