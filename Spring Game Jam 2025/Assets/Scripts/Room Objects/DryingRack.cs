@@ -58,8 +58,6 @@ public class DryingRack : MonoBehaviour
         }
 
         lastFrameChildCount = transform.childCount;
-
-        Debug.Log(CompletionTime);
     }
 
     private void OnUpgradeDryingSpeed()

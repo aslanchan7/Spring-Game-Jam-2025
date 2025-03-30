@@ -35,16 +35,13 @@ public abstract class DragDroppable : MonoBehaviour, IDrag
 
     public virtual void OnStartDrag()
     {
-        Debug.Log("OnStartDrag not implemented");
     }
 
     public virtual void OnDrag()
     {
-        Debug.Log("OnDrag not implemented");
     }
 
     public virtual void OnEndDrag()
     {
-        Debug.Log("OnEndDrag not implemented");
     }
 }

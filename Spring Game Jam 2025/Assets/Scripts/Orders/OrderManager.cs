@@ -66,12 +66,16 @@ public class OrderManager : MonoBehaviour
         HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
         HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
 
+        PatternColor baseColor = (PatternColor) Random.Range(0, 3);
+
+        colorsUsed.Add(baseColor);
+
         for (int i = 0; i < imprints.Length; i++)
         {
             Pattern pattern;
             do
             {
-                pattern = (Pattern)Random.Range(0, 3);
+                pattern = (Pattern) Random.Range(0, 3);
             } while (patternsUsed.Contains(pattern));
 
             PatternColor patternColor;
@@ -81,9 +85,12 @@ public class OrderManager : MonoBehaviour
             } while (colorsUsed.Contains(patternColor));
 
             imprints[i] = new Imprint(patternColor, pattern);
+
+            colorsUsed.Add(patternColor);
+            patternsUsed.Add(pattern);
         }
 
-        Order order = new(clothingItem, imprints);
+        Order order = new(clothingItem, baseColor, imprints);
         return order;
     }
 

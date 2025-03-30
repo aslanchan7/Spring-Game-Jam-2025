@@ -5,6 +5,7 @@ public class PaintingTable : MonoBehaviour
 {
 
     public byte currentPaint = 0;
+    public Spray spraySize = Spray.Small;
 
     [HideInInspector] public static bool[] allTrueStencil = new bool[64 * 64];
     [HideInInspector] public StencilScript activeStencil;
@@ -44,9 +45,7 @@ public class PaintingTable : MonoBehaviour
             
             for (int i = 0; i < stencils.Length; i++)
             {
-                Debug.Log(stencils[i].id + " " + id);
                 if (stencils[i].id == id) {
-                    Debug.Log("Found stencil");
                     stencils[i].enable();
                     activeStencil = stencils[i];
                 }

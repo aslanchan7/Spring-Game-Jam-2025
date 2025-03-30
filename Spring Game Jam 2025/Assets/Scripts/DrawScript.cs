@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +31,10 @@ public class DrawScript : MonoBehaviour
     [HideInInspector] public static readonly Color sprayRed = new Color32(172, 50, 50, 255); // 33
     [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255); // 34
 
+    public static bool[] smallSpray, mediumSpray, bigSpray, giantSpray, massiveSpray;
+
+    private static bool[] currentSpray;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,12 +42,12 @@ public class DrawScript : MonoBehaviour
         camera = FindFirstObjectByType<Camera>();
         table = FindFirstObjectByType<PaintingTable>();
 
-        Color[] block = referenceSprite.texture.GetPixels((int) System.Math.Ceiling(referenceSprite.textureRect.x), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.y), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.width), 
-			                                              (int) System.Math.Ceiling(referenceSprite.textureRect.height));
-        width = (int) System.Math.Ceiling(referenceSprite.textureRect.width);
-        height = (int) System.Math.Ceiling(referenceSprite.textureRect.height);
+        Color[] block = referenceSprite.texture.GetPixels((int) Math.Ceiling(referenceSprite.textureRect.x), 
+			                                              (int) Math.Ceiling(referenceSprite.textureRect.y), 
+			                                              (int) Math.Ceiling(referenceSprite.textureRect.width), 
+			                                              (int) Math.Ceiling(referenceSprite.textureRect.height));
+        width = (int) Math.Ceiling(referenceSprite.textureRect.width);
+        height = (int) Math.Ceiling(referenceSprite.textureRect.height);
         pixels = new byte[width * height];
         for (int i = 0; i < block.Length; i++) {
             if (block[i].a == 0) pixels[i] = 0;
@@ -51,12 +57,37 @@ public class DrawScript : MonoBehaviour
             else if (block[i] == hatRed) pixels[i] = 6;
             else pixels[i] = 0;
         }
+
+        smallSpray = generateBrushFromFile("Assets/Sprites/Brushes/small_spray.png");
+        mediumSpray = generateBrushFromFile("Assets/Sprites/Brushes/medium_spray.png");
+        bigSpray = generateBrushFromFile("Assets/Sprites/Brushes/big_spray.png");
+        giantSpray = generateBrushFromFile("Assets/Sprites/Brushes/giant_spray.png");
+        massiveSpray = generateBrushFromFile("Assets/Sprites/Brushes/massive_spray.png");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (table.spraySize == Spray.Small)
+        {
+            currentSpray = smallSpray;
+        }
+        else if (table.spraySize == Spray.Medium)
+        {
+            currentSpray = mediumSpray;
+        }
+        else if (table.spraySize == Spray.Big)
+        {
+            currentSpray = bigSpray;
+        }
+        else if (table.spraySize == Spray.Giant)
+        {
+            currentSpray = giantSpray;
+        }
+        else if (table.spraySize == Spray.Massive)
+        {
+            currentSpray = massiveSpray;
+        }
     }
 
     // Generates a sprite based on the pixel array
@@ -136,13 +167,14 @@ public class DrawScript : MonoBehaviour
 
     void brushPosition(Vector2 mousePosition, byte color) {
         bool[] stencil = table.getStencilMap();
-        if (mousePosition.x >= 0 && mousePosition.x < 1 && mousePosition.y >= 0 && mousePosition.y < 1) {
+        if (mousePosition.x >= -0.5 && mousePosition.x < 1.5 && mousePosition.y >= -0.5 && mousePosition.y < 1.5) {
             int pixelX = (int) (mousePosition.x * width);
             int pixelY = (int) (mousePosition.y * height);
-            for (int i = 0; i < 49; i++) {
-                if (i == 0 || i == 1 || i == 5 || i == 6 || i == 7 || i == 13 || i == 35 || i == 41 || i == 42 || i == 43 || i == 47 || i == 48) continue;
-                int newPixelX = pixelX - 3 + (i % 7);
-                int newPixelY = pixelY - 3 + (i / 7);
+            int brushSize = (int) Math.Sqrt(currentSpray.Length);
+            for (int i = 0; i < currentSpray.Length; i++) {
+                if (!currentSpray[i]) continue;
+                int newPixelX = pixelX - (brushSize / 2) + (i % brushSize);
+                int newPixelY = pixelY - (brushSize / 2) + (i / brushSize);
                 paintPixel(newPixelX, newPixelY, color, stencil);
             }
         }
@@ -154,4 +186,34 @@ public class DrawScript : MonoBehaviour
         int pixel = x + (y * width);
         if (pixels[pixel] >= 2) pixels[pixel] = color;
     }
+
+    public static Color[] getColorsFromFile(string file)
+    {
+        byte[] image = File.ReadAllBytes(file);
+
+        Texture2D tmpTexture = new Texture2D(64, 64);
+        tmpTexture.LoadImage(image);
+        Color[] pixels = tmpTexture.GetPixels();
+
+        return pixels;
+    }
+
+    public static bool[] generateBrushFromFile(string file)
+    {
+        Color[] colors = getColorsFromFile(file);
+
+        bool[] output = new bool[colors.Length];
+
+        for (int i = 0; i < colors.Length; i++)
+        {
+            output[i] = colors[i].a == 1;
+        }
+
+        return output;
+    }
+}
+
+public enum Spray
+{
+    Small, Medium, Big, Giant, Massive
 }
