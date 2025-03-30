@@ -82,7 +82,7 @@ public class OrderManager : MonoBehaviour
             Pattern pattern;
             do
             {
-                pattern = (Pattern)Random.Range(0, 3);
+                pattern = (Pattern) Random.Range(0, 10);
             } while (patternsUsed.Contains(pattern));
 
             PatternColor patternColor;

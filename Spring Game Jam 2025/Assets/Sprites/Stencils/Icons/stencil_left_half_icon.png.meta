@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f6c72fc0d4c615a488b8452c060488c2
+guid: 787f3ed46856d6d4f95d658d69383b51
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2915222066157690206
-    second: checker_stencil_0
+      213: -285717598783809641
+    second: stencil_left_half_icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: checker_stencil_0
+      name: stencil_left_half_icon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5d95be0603f47820800000000000000
-      internalID: 2915222066157690206
+      spriteID: 797d9629b5de80cf0800000000000000
+      internalID: -285717598783809641
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      checker_stencil_0: 2915222066157690206
+      stencil_left_half_icon_0: -285717598783809641
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

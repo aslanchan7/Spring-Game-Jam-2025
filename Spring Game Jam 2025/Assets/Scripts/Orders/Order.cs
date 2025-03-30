@@ -8,9 +8,16 @@ public class Order
     public PatternColor BaseColor;
     public int SellPrice;
 
-    private static readonly bool[] stripeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/stripe_stencil.png"));
     private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/top_half_stencil.png"));
     private static readonly bool[] bottomHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/bottom_half_stencil.png"));
+    private static readonly bool[] leftHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/left_half_stencil.png"));
+    private static readonly bool[] rightHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/right_half_stencil.png"));
+    private static readonly bool[] stripeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/stripe_stencil.png"));
+    private static readonly bool[] spotsStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/spots_stencil.png"));
+    private static readonly bool[] verticalStripeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/vertical_stripe_stencil.png"));
+    private static readonly bool[] beeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/bee_stencil.png"));
+    private static readonly bool[] shamrockStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/shamrock_stencil.png"));
+    private static readonly bool[] unicycleStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/unicycle_stencil.png"));
 
     public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int SellPrice)
     {
@@ -98,9 +105,16 @@ public class Order
 
     public bool[] getStencilFromPattern(Pattern pattern)
     {
-        if (pattern == Pattern.Striped) return stripeStencil;
-        else if (pattern == Pattern.TopHalf) return topHalfStencil;
+        if (pattern == Pattern.TopHalf) return topHalfStencil;
         else if (pattern == Pattern.BottomHalf) return bottomHalfStencil;
+        else if (pattern == Pattern.LeftHalf) return leftHalfStencil;
+        else if (pattern == Pattern.RightHalf) return rightHalfStencil;
+        else if (pattern == Pattern.Stripes) return stripeStencil;
+        else if (pattern == Pattern.Spots) return spotsStencil;
+        else if (pattern == Pattern.VerticalStripes) return verticalStripeStencil;
+        else if (pattern == Pattern.Bee) return beeStencil;
+        else if (pattern == Pattern.Shamrock) return shamrockStencil;
+        else if (pattern == Pattern.Unicycle) return unicycleStencil;
         else return PaintingTable.allTrueStencil;
     }
 
@@ -134,9 +148,16 @@ public enum ClothingItem
 
 public enum Pattern
 {
-    Striped,
     TopHalf,
-    BottomHalf
+    BottomHalf,
+    LeftHalf,
+    RightHalf,
+    Stripes,
+    Spots,
+    VerticalStripes,
+    Bee,
+    Shamrock,
+    Unicycle
 }
 
 public enum PatternColor
