@@ -19,6 +19,7 @@ public class StencilIconScript : MonoBehaviour
 
     void OnMouseDown()
     {
+        if ((!table.activeStencil || table.activeStencil.id != id) && !table.GetComponentInChildren<Clothing>()) return;
         table.setActiveStencil(id);
     }
 }
