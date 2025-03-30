@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +19,8 @@ public class OrderManager : MonoBehaviour
     [HideInInspector] public OrderBox currentOrder;
     [HideInInspector] public Queue<OrderBox> nextOrders = new();
 
+    public StencilManager stencilManager;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,6 +36,7 @@ public class OrderManager : MonoBehaviour
     void Start()
     {
         stencilUpgradeIndex = 0;
+        stencilManager = FindAnyObjectByType<StencilManager>();
     }
 
     void Update()
@@ -67,13 +69,13 @@ public class OrderManager : MonoBehaviour
     private Order GenerateRandomOrder()
     {
         ClothingItem clothingItem = ClothingItem.Shirt;
-        int imprintCount = Random.Range(0, 3);
+        int imprintCount = Random.Range(0, System.Math.Min(stencilManager.ActiveStencils + 1, 3));
         Imprint[] imprints = new Imprint[imprintCount];
 
         HashSet<Pattern> patternsUsed = new HashSet<Pattern>();
         HashSet<PatternColor> colorsUsed = new HashSet<PatternColor>();
 
-        PatternColor baseColor = (PatternColor)Random.Range(0, 3);
+        PatternColor baseColor = (PatternColor) Random.Range(0, 3);
 
         colorsUsed.Add(baseColor);
 
@@ -82,7 +84,7 @@ public class OrderManager : MonoBehaviour
             Pattern pattern;
             do
             {
-                pattern = (Pattern) Random.Range(0, 10);
+                pattern = (Pattern) Random.Range(0, stencilManager.ActiveStencils);
             } while (patternsUsed.Contains(pattern));
 
             PatternColor patternColor;
