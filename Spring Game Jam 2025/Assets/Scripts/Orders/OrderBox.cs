@@ -36,6 +36,7 @@ public class OrderBox : MonoBehaviour
         if (CheckOrderCompletion(clothingItem, dry, pixels) == true)
         {
             // Destroy item and remove order for successful sale
+            GameManager.Instance.UpdateMoney(order.SellPrice);
             Destroy(item);
             Destroy(gameObject);
             OrderManager.Instance.StartNextOrder();
