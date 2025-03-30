@@ -1,8 +1,7 @@
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class UpgradeOption : MonoBehaviour
+public class DryerUpgradeOption : MonoBehaviour
 {
     [SerializeField] TMP_Text upgradeText;
     [SerializeField] TMP_Text priceText;
@@ -11,6 +10,11 @@ public class UpgradeOption : MonoBehaviour
     void OnEnable()
     {
         UpgradeEventManager.UpgradeDryingSpeed += UpgradeDryingSpeed;
+    }
+
+    void OnDisable()
+    {
+        UpgradeEventManager.UpgradeDryingSpeed -= UpgradeDryingSpeed;
     }
 
     private void UpgradeDryingSpeed()
@@ -22,13 +26,13 @@ public class UpgradeOption : MonoBehaviour
         string newPriceText;
         if (currUpgradeIndex >= dryerUpgrades.Length - 2)
         {
-            newUpgradeText = "MAXED";
-            newPriceText = "MAXED";
+            newUpgradeText = "Maxed";
+            newPriceText = "Maxed";
         }
         else
         {
             currUpgradeIndex++;
-            newUpgradeText = dryerUpgrades[currUpgradeIndex] + " --> " + dryerUpgrades[currUpgradeIndex + 1];
+            newUpgradeText = dryerUpgrades[currUpgradeIndex] + "s --> " + dryerUpgrades[currUpgradeIndex + 1] + "s";
             newPriceText = UpgradeMenu.Instance.DryerUpgradePrices[currUpgradeIndex] + " G";
         }
 
