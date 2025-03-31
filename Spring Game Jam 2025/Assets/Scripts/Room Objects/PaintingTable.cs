@@ -11,6 +11,7 @@ public class PaintingTable : MonoBehaviour
     [HideInInspector] public StencilScript activeStencil;
 
     public bool isTitleScreen = false;
+    public AudioSource spraySound;
 
     void OnEnable()
     {
@@ -25,6 +26,7 @@ public class PaintingTable : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        this.spraySound = GetComponent<AudioSource>();
         for (int i = 0; i < 64 * 64; i++)
         {
             allTrueStencil[i] = true;
@@ -38,6 +40,18 @@ public class PaintingTable : MonoBehaviour
 
         if (currentPaint > 0 && Input.GetMouseButtonUp(0) && !isTitleScreen) {
             currentPaint = 0;
+        }
+
+        if (spraySound)
+        {
+            if (currentPaint == 0)
+            {
+                spraySound.mute = true;
+            }
+            else
+            {
+                spraySound.mute = false;
+            }
         }
     }
 

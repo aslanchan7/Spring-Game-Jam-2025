@@ -23,10 +23,10 @@ public class TargetMoneyUI : MonoBehaviour
         while (currentTarget >= finalTarget)
         {
             currentTarget -= increment;
-            GetComponent<TMP_Text>().text = "Target: $" + (int)currentTarget;
+            GetComponent<TMP_Text>().text = "$" + (int)currentTarget + " left";
             yield return null;
         }
 
-        GetComponent<TMP_Text>().text = "Target: $" + (int)finalTarget;
+        GetComponent<TMP_Text>().text = "$" + (int)finalTarget + " left";
     }
 }
