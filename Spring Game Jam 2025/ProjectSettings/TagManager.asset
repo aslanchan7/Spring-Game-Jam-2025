@@ -57,11 +57,11 @@ TagManager:
   - name: Stencils
     uniqueID: 3294002319
     locked: 0
-  - name: DragDroppable
-    uniqueID: 667474291
-    locked: 0
   - name: UI
     uniqueID: 2367389335
+    locked: 0
+  - name: DragDroppable
+    uniqueID: 667474291
     locked: 0
   m_RenderingLayers:
   - Default
