@@ -48,6 +48,7 @@ public class DrawScript : MonoBehaviour
     private static bool[] currentSpray;
 
     private bool hasUpdated;
+    public AudioSource completeSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -180,6 +181,7 @@ public class DrawScript : MonoBehaviour
                         completeStencil(table.currentPaint);
                         flashAnimator.Play("ShirtFlash");
                         flashAnimator.Play("ShirtIdle");
+                        if (completeSound) completeSound.Play();
                     }
                 }
                 updateSprite();

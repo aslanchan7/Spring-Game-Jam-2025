@@ -20,6 +20,8 @@ public class UpgradeMenu : MonoBehaviour
     public int[] StencilUpgradePrices;
     [HideInInspector] public int StencilUpgradeIndex = 0;
 
+    public AudioSource upgradeSound;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,6 +39,7 @@ public class UpgradeMenu : MonoBehaviour
         if (GameManager.Instance.Money < PaintAreaUpgradePrices[PaintUpgradeIndex]) return;
         GameManager.Instance.UpdateMoney(-PaintAreaUpgradePrices[PaintUpgradeIndex]);
         UpgradeEventManager.OnUpgradePaintArea();
+        upgradeSound.Play();
     }
 
     public void UpgradeDryingSpeed()
@@ -44,6 +47,7 @@ public class UpgradeMenu : MonoBehaviour
         if (GameManager.Instance.Money < DryerUpgradePrices[DryerUpgradeIndex]) return;
         GameManager.Instance.UpdateMoney(-DryerUpgradePrices[DryerUpgradeIndex]);
         UpgradeEventManager.OnUpgradeDryingSpeed();
+        upgradeSound.Play();
     }
 
     public void UpgradeStencil()
@@ -51,6 +55,7 @@ public class UpgradeMenu : MonoBehaviour
         if (GameManager.Instance.Money < StencilUpgradePrices[StencilUpgradeIndex]) return;
         GameManager.Instance.UpdateMoney(-StencilUpgradePrices[StencilUpgradeIndex]);
         UpgradeEventManager.OnUpgradeStencil();
+        upgradeSound.Play();
     }
 
     public void OpenUpgradeMenu()

@@ -10,6 +10,8 @@ public class OrderBox : MonoBehaviour
     public Image image;
     public Timer timer;
     private Animator animator;
+    public AudioSource completeOrderSound;
+    public AudioSource failOrderSound;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class OrderBox : MonoBehaviour
         if (isCurrentOrder && timer.TimeToDisplay <= 0f)
         {
             DeleteOrder();
+            failOrderSound.Play();
         }
 
         GetComponent<RectTransform>().localScale = Vector3.one * 2; // this sets the localScale to 1 when mouse is not hovering over it
@@ -48,6 +51,7 @@ public class OrderBox : MonoBehaviour
             GameManager.Instance.UpdateMoney(order.SellPrice);
             Destroy(item);
             animator.SetTrigger("Exit");
+            completeOrderSound.Play();
         }
     }
 

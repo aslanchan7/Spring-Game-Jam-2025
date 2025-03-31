@@ -14,12 +14,13 @@ public class GameManager : MonoBehaviour
     public int Money { get; private set; }
     public int AnimIncrements = 100; // The greater the number, the slower the anim
     public int round = 1;
-    public int initialMoney = 30;
+    public int initialMoney = 100;
     public TMP_Text MoneyText;
 
     public int TargetMoney;
     public Timer RoundTimer;
     public GameObject GameOverScreen;
+    public AudioSource nextRoundSound, gameOverSound;
 
     void Awake()
     {
@@ -82,10 +83,12 @@ public class GameManager : MonoBehaviour
         if (TargetMoney <= 0)
         {
             SetNewTargetMoney();
+            nextRoundSound.Play();
         }
 
         if (RoundTimer.TimeToDisplay <= 0f)
         {
+            if (!GameOverScreen.activeSelf) gameOverSound.Play();
             GameOverScreen.SetActive(true);
             Time.timeScale = 0f;
         }
