@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public int TargetMoney;
     public Timer RoundTimer;
+    public GameObject GameOverScreen;
 
     void Awake()
     {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        Time.timeScale = 1f;
     }
 
     void Start()
@@ -68,6 +71,12 @@ public class GameManager : MonoBehaviour
         if (Money >= TargetMoney)
         {
             SetNewTargetMoney();
+        }
+
+        if (RoundTimer.TimeToDisplay <= 0f)
+        {
+            GameOverScreen.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 

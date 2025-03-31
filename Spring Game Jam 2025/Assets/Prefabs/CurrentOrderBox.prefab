@@ -93,6 +93,7 @@ MonoBehaviour:
   orderManager: {fileID: 0}
   isCurrentOrder: 0
   image: {fileID: 7392178339514812809}
+  timer: {fileID: 8339488635721174174}
 --- !u!1 &5480000205437667973
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,8 +162,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0:36:97
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7afa18a990feb534c8e848d28b84b3ea, type: 2}
+  m_sharedMaterial: {fileID: -4409148107258351952, guid: 7afa18a990feb534c8e848d28b84b3ea, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -7,6 +7,7 @@ public class OrderBox : MonoBehaviour
     [HideInInspector] public OrderManager orderManager;
     [HideInInspector] public bool isCurrentOrder;
     [SerializeField] Image image;
+    [SerializeField] Timer timer;
 
     void Start()
     {
@@ -23,6 +24,11 @@ public class OrderBox : MonoBehaviour
         else
         {
             isCurrentOrder = false;
+        }
+
+        if (isCurrentOrder && timer.TimeToDisplay <= 0f)
+        {
+            DeleteOrder();
         }
 
         GetComponent<RectTransform>().localScale = Vector3.one; // this sets the localScale to 1 when mouse is not hovering over it
@@ -49,4 +55,9 @@ public class OrderBox : MonoBehaviour
         return clothingItem == order.ClothingItem && dry && order.getAccuracy(pixels) >= 0.95f;
     }
 
+    private void DeleteOrder()
+    {
+        Destroy(gameObject);
+        OrderManager.Instance.StartNextOrder();
+    }
 }

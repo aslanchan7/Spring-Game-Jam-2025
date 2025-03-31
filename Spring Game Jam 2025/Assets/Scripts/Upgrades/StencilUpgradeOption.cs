@@ -16,6 +16,12 @@ public class StencilUpgradeOption : MonoBehaviour
         UpgradeEventManager.UpgradeStencil -= UpgradeStencil;
     }
 
+    void Start()
+    {
+        upgradeText.text = UpgradeMenu.Instance.StencilUpgrades[0] + "% Sell Price";
+        priceText.text = UpgradeMenu.Instance.StencilUpgradePrices[0] + " G";
+    }
+
     private void UpgradeStencil()
     {
         float[] stencilUpgrades = UpgradeMenu.Instance.StencilUpgrades;

@@ -5,6 +5,7 @@ public class DryingRack : MonoBehaviour
 {
     [HideInInspector] public float CompletionTime;
     [SerializeField] Slider progressBar;
+    [SerializeField] GameObject clothesPin;
     private int currUpgradeIndex;
     private float startTime;
     private float elapsedTime;
@@ -28,12 +29,12 @@ public class DryingRack : MonoBehaviour
 
     void Update()
     {
-        if (transform.childCount == 2 && lastFrameChildCount == 1)
+        if (transform.childCount == 3 && lastFrameChildCount == 2)
         {
             startTime = Time.time;
         }
 
-        if (transform.childCount > 1)
+        if (transform.childCount > 2)
         {
             elapsedTime = Time.time - startTime;
 
@@ -47,7 +48,12 @@ public class DryingRack : MonoBehaviour
             }
         }
 
-        if (elapsedTime == 0f || transform.childCount == 1)
+        if (transform.childCount == 2)
+        {
+            progressBar.gameObject.SetActive(false);
+            clothesPin.SetActive(false);
+        }
+        else if (elapsedTime == 0f)
         {
             progressBar.gameObject.SetActive(false);
         }
@@ -55,6 +61,7 @@ public class DryingRack : MonoBehaviour
         {
             progressBar.gameObject.SetActive(true);
             progressBar.value = Mathf.Clamp01(elapsedTime / CompletionTime);
+            clothesPin.SetActive(true);
         }
 
         lastFrameChildCount = transform.childCount;

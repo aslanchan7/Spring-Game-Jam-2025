@@ -16,6 +16,12 @@ public class DryerUpgradeOption : MonoBehaviour
         UpgradeEventManager.UpgradeDryingSpeed -= UpgradeDryingSpeed;
     }
 
+    void Start()
+    {
+        upgradeText.text = UpgradeMenu.Instance.DryerUpgrades[0] + "s --> " + UpgradeMenu.Instance.DryerUpgrades[1] + "s";
+        priceText.text = UpgradeMenu.Instance.DryerUpgradePrices[0] + " G";
+    }
+
     private void UpgradeDryingSpeed()
     {
         float[] dryerUpgrades = UpgradeMenu.Instance.DryerUpgrades;

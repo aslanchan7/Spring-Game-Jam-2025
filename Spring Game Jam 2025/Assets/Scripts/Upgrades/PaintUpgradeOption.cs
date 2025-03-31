@@ -16,6 +16,12 @@ public class PaintUpgradeOption : MonoBehaviour
         UpgradeEventManager.UpgradePaintArea -= UpgradePaintArea;
     }
 
+    void Start()
+    {
+        upgradeText.text = UpgradeMenu.Instance.PaintAreaLevels[0] + " --> " + UpgradeMenu.Instance.PaintAreaLevels[1];
+        priceText.text = UpgradeMenu.Instance.PaintAreaUpgradePrices[0] + " G";
+    }
+
     private void UpgradePaintArea()
     {
         string[] paintUpgrades = UpgradeMenu.Instance.PaintAreaLevels;
