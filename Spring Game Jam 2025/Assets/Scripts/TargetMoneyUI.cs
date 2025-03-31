@@ -18,6 +18,9 @@ public class TargetMoneyUI : MonoBehaviour
     {
         float currentTarget = GameManager.Instance.TargetMoney;
         float finalTarget = currentTarget - value;
+        if(finalTarget <= 0) {
+            finalTarget = GameManager.Instance.initialMoney * (int) (System.Math.Pow(2, GameManager.Instance.round));
+        }
         float increment = (float)value / GameManager.Instance.AnimIncrements;
 
         while (currentTarget >= finalTarget)

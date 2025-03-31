@@ -122,8 +122,7 @@ public class OrderManager : MonoBehaviour
         OrderBox orderBoxComponent = orderBox.GetComponent<OrderBox>();
         orderBoxComponent.order = order;
 
-        // Adjust size & color of the background box/panel
-        orderBox.GetComponent<RectTransform>().sizeDelta = new(150, 135);
+        // Adjust color of the background box/panel
         Color panelColor = orderBoxComponent.background.color;
         orderBoxComponent.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.5f);
 
@@ -146,9 +145,8 @@ public class OrderManager : MonoBehaviour
 
         // Change the OrderBox settings for this new current order
         // Adjust size & color of the background box/panel
-        currentOrder.GetComponent<RectTransform>().sizeDelta = new(150, 150);
         Color panelColor = currentOrder.background.color;
-        currentOrder.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.8f);
+        currentOrder.background.color = new(panelColor.r, panelColor.g, panelColor.b, 1f);
 
         // Adjust alpha of the image
         Color spriteColor = currentOrder.image.color;

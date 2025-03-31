@@ -5,6 +5,6 @@ public class RoundNumberUI : MonoBehaviour
 {
     void Update()
     {
-        GetComponent<TMP_Text>().text = "Round 1";
+        GetComponent<TMP_Text>().text = "Round " + GameManager.Instance.round;
     }
 }

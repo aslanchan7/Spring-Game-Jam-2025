@@ -34,12 +34,11 @@ public class OrderBox : MonoBehaviour
             DeleteOrder();
         }
 
-        GetComponent<RectTransform>().localScale = Vector3.one; // this sets the localScale to 1 when mouse is not hovering over it
+        GetComponent<RectTransform>().localScale = Vector3.one * 2; // this sets the localScale to 1 when mouse is not hovering over it
     }
 
     public void TrySell(GameObject item, ClothingItem clothingItem, bool dry, byte[] pixels)
     {
-        Debug.Log("Hello");
         if (isCurrentOrder == false) return;
 
         // Sells the item if completed

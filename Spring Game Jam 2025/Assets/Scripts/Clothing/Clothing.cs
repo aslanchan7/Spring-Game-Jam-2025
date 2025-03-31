@@ -62,7 +62,7 @@ public class Clothing : DragDroppable
             {
                 if (orderBoxComponent.isCurrentOrder)
                 {
-                    raycastResult.gameObject.GetComponent<RectTransform>().localScale = new(1.05f, 1.05f, 1.05f);
+                    raycastResult.gameObject.GetComponent<RectTransform>().localScale = new(2.1f, 2.1f, 2.1f);
                 }
             }
         }

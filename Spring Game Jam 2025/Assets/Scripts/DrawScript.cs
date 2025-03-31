@@ -176,7 +176,7 @@ public class DrawScript : MonoBehaviour
                 if (completeWhenFilled)
                 {
                     float completion = getStencilCompletionForColor(table.currentPaint);
-                    if (completion >= 0.90 && completion < 1) {
+                    if (completion >= 0.93 && completion < 1) {
                         completeStencil(table.currentPaint);
                         flashAnimator.Play("ShirtFlash");
                         flashAnimator.Play("ShirtIdle");

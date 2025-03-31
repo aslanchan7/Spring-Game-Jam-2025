@@ -19,7 +19,7 @@ public class StencilUpgradeOption : MonoBehaviour
     void Start()
     {
         upgradeText.text = UpgradeMenu.Instance.StencilUpgrades[0] + "% Sell Price";
-        priceText.text = UpgradeMenu.Instance.StencilUpgradePrices[0] + " G";
+        priceText.text = "$" + UpgradeMenu.Instance.StencilUpgradePrices[0];
     }
 
     private void UpgradeStencil()
@@ -40,7 +40,7 @@ public class StencilUpgradeOption : MonoBehaviour
             currUpgradeIndex++;
             UpgradeMenu.Instance.StencilUpgradeIndex = currUpgradeIndex;
             newUpgradeText = "+" + stencilUpgrades[currUpgradeIndex] + "% Sell Price";
-            newPriceText = UpgradeMenu.Instance.StencilUpgradePrices[currUpgradeIndex] + " G";
+            newPriceText = "$" + UpgradeMenu.Instance.StencilUpgradePrices[currUpgradeIndex];
         }
 
         upgradeText.text = newUpgradeText;

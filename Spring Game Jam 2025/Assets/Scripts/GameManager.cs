@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [Header("Money")]
     public int Money { get; private set; }
     public int AnimIncrements = 100; // The greater the number, the slower the anim
+    public int round = 1;
+    public int initialMoney = 30;
     public TMP_Text MoneyText;
 
     public int TargetMoney;
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         MoneyText.text = "$" + Money;
+        TargetMoney = initialMoney;
     }
 
     public void UpdateMoney(int value)
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Money >= TargetMoney)
+        if (TargetMoney <= 0)
         {
             SetNewTargetMoney();
         }
@@ -92,7 +95,8 @@ public class GameManager : MonoBehaviour
 
     private void SetNewTargetMoney()
     {
-        TargetMoney *= 2;
+        TargetMoney = initialMoney * (int) (Math.Pow(2, round));
         RoundTimer.TimeToDisplay = 120f;
+        round++;
     }
 }

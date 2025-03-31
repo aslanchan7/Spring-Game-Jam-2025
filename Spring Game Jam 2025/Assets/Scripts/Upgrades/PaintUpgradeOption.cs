@@ -19,7 +19,7 @@ public class PaintUpgradeOption : MonoBehaviour
     void Start()
     {
         upgradeText.text = UpgradeMenu.Instance.PaintAreaLevels[0] + " --> " + UpgradeMenu.Instance.PaintAreaLevels[1];
-        priceText.text = UpgradeMenu.Instance.PaintAreaUpgradePrices[0] + " G";
+        priceText.text = "$" + UpgradeMenu.Instance.PaintAreaUpgradePrices[0];
     }
 
     private void UpgradePaintArea()
@@ -40,7 +40,7 @@ public class PaintUpgradeOption : MonoBehaviour
             currUpgradeIndex++;
             UpgradeMenu.Instance.PaintUpgradeIndex = currUpgradeIndex;
             newUpgradeText = paintUpgrades[currUpgradeIndex] + " --> " + paintUpgrades[currUpgradeIndex + 1];
-            newPriceText = UpgradeMenu.Instance.PaintAreaUpgradePrices[currUpgradeIndex] + " G";
+            newPriceText = "$" + UpgradeMenu.Instance.PaintAreaUpgradePrices[currUpgradeIndex];
         }
 
         upgradeText.text = newUpgradeText;

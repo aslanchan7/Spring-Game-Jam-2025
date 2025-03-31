@@ -19,7 +19,7 @@ public class DryerUpgradeOption : MonoBehaviour
     void Start()
     {
         upgradeText.text = UpgradeMenu.Instance.DryerUpgrades[0] + "s --> " + UpgradeMenu.Instance.DryerUpgrades[1] + "s";
-        priceText.text = UpgradeMenu.Instance.DryerUpgradePrices[0] + " G";
+        priceText.text = "$" + UpgradeMenu.Instance.DryerUpgradePrices[0];
     }
 
     private void UpgradeDryingSpeed()
@@ -40,7 +40,7 @@ public class DryerUpgradeOption : MonoBehaviour
             currUpgradeIndex++;
             UpgradeMenu.Instance.DryerUpgradeIndex = currUpgradeIndex;
             newUpgradeText = dryerUpgrades[currUpgradeIndex] + "s --> " + dryerUpgrades[currUpgradeIndex + 1] + "s";
-            newPriceText = UpgradeMenu.Instance.DryerUpgradePrices[currUpgradeIndex] + " G";
+            newPriceText = "$" + UpgradeMenu.Instance.DryerUpgradePrices[currUpgradeIndex];
         }
 
         upgradeText.text = newUpgradeText;
