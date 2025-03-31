@@ -6,13 +6,16 @@ public class OrderBox : MonoBehaviour
     [HideInInspector] public Order order;
     [HideInInspector] public OrderManager orderManager;
     [HideInInspector] public bool isCurrentOrder;
-    [SerializeField] Image image;
-    [SerializeField] Timer timer;
+    public Image background;
+    public Image image;
+    public Timer timer;
+    private Animator animator;
 
     void Start()
     {
         Sprite orderSprite = order.generateSprite();
         image.sprite = orderSprite;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -36,6 +39,7 @@ public class OrderBox : MonoBehaviour
 
     public void TrySell(GameObject item, ClothingItem clothingItem, bool dry, byte[] pixels)
     {
+        Debug.Log("Hello");
         if (isCurrentOrder == false) return;
 
         // Sells the item if completed
@@ -44,8 +48,7 @@ public class OrderBox : MonoBehaviour
             // Destroy item and remove order for successful sale
             GameManager.Instance.UpdateMoney(order.SellPrice);
             Destroy(item);
-            Destroy(gameObject);
-            OrderManager.Instance.StartNextOrder();
+            animator.SetTrigger("Exit");
         }
     }
 

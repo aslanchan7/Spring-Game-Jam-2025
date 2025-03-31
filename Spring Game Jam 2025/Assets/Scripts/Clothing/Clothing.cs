@@ -96,6 +96,7 @@ public class Clothing : DragDroppable
         EventSystem.current.RaycastAll(eventData, raycastResults);
         foreach (var raycastResult in raycastResults)
         {
+            Debug.Log("Hello");
             raycastResult.gameObject.TryGetComponent<OrderBox>(out var orderBoxComponent);
             if (orderBoxComponent != null)
             {

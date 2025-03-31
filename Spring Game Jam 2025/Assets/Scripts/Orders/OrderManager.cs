@@ -119,22 +119,23 @@ public class OrderManager : MonoBehaviour
     private OrderBox CreateOrderBox(Order order)
     {
         GameObject orderBox = Instantiate(orderBoxPrefab, ordersList.transform);
-        orderBox.GetComponent<OrderBox>().order = order;
+        OrderBox orderBoxComponent = orderBox.GetComponent<OrderBox>();
+        orderBoxComponent.order = order;
 
         // Adjust size & color of the background box/panel
         orderBox.GetComponent<RectTransform>().sizeDelta = new(150, 135);
-        Color panelColor = orderBox.GetComponent<Image>().color;
-        orderBox.GetComponent<Image>().color = new(panelColor.r, panelColor.g, panelColor.b, 0.5f);
+        Color panelColor = orderBoxComponent.background.color;
+        orderBoxComponent.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.5f);
 
         // Adjust alpha of the image
-        Color spriteColor = orderBox.transform.GetChild(0).GetComponent<Image>().color;
-        orderBox.transform.GetChild(0).GetComponent<Image>().color = new(spriteColor.r, spriteColor.g,
+        Color spriteColor = orderBox.GetComponent<OrderBox>().image.color;
+        orderBoxComponent.image.color = new(spriteColor.r, spriteColor.g,
             spriteColor.b, 0.5f);
 
         // Hide the timer text
-        orderBox.transform.GetChild(1).gameObject.SetActive(false);
+        orderBoxComponent.timer.gameObject.SetActive(false);
 
-        return orderBox.GetComponent<OrderBox>();
+        return orderBoxComponent;
     }
 
     public void StartNextOrder()
@@ -146,16 +147,15 @@ public class OrderManager : MonoBehaviour
         // Change the OrderBox settings for this new current order
         // Adjust size & color of the background box/panel
         currentOrder.GetComponent<RectTransform>().sizeDelta = new(150, 150);
-        Color panelColor = currentOrder.GetComponent<Image>().color;
-        currentOrder.GetComponent<Image>().color = new(panelColor.r, panelColor.g, panelColor.b, 0.8f);
+        Color panelColor = currentOrder.background.color;
+        currentOrder.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.8f);
 
         // Adjust alpha of the image
-        Color spriteColor = currentOrder.transform.GetChild(0).GetComponent<Image>().color;
-        currentOrder.transform.GetChild(0).GetComponent<Image>().color = new(spriteColor.r, spriteColor.g,
-            spriteColor.b, 1f);
+        Color spriteColor = currentOrder.image.color;
+        currentOrder.image.color = new(spriteColor.r, spriteColor.g, spriteColor.b, 1f);
 
         // Hide the timer text
-        currentOrder.transform.GetChild(1).gameObject.SetActive(true);
+        currentOrder.timer.gameObject.SetActive(true);
 
         // Start timer
         TimerEventManager.OnTimerStart();

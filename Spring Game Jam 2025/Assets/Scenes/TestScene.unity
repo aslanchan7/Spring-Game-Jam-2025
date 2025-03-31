@@ -5073,9 +5073,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.13718821
-    y: 0.020000001
+    y: 0.02002002
     width: 0.7256236
-    height: 0.96000004
+    height: 0.9609609
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -10822,7 +10822,7 @@ MonoBehaviour:
   maxOrderNum: 3
   sellPrices: 14000000180000001f0000002c0000004200000069000000b20000004101000061020000c2040000
   currentOrder: {fileID: 0}
-  stencilManager: {fileID: 0}
+  stencilManager: {fileID: 293940730}
 --- !u!4 &2113935900
 Transform:
   m_ObjectHideFlags: 0

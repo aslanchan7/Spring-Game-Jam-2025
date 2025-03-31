@@ -1,10 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static event UnityAction<int> TargetMoneyUpdated;
+    public static void OnTargetMoneyUpdated(int value) => TargetMoneyUpdated?.Invoke(value);
 
     [Header("Money")]
     public int Money { get; private set; }
@@ -38,6 +42,12 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(UpdateMoneyAnimation(value));
         Money += value;
+
+        if (value > 0)
+        {
+            OnTargetMoneyUpdated(value);
+            TargetMoney -= value;
+        }
     }
 
     private IEnumerator UpdateMoneyAnimation(int value)
