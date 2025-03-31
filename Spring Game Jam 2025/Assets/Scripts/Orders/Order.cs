@@ -8,15 +8,15 @@ public class Order
     public PatternColor BaseColor;
     public int SellPrice;
 
-    private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/top_half_stencil.png"));
-    private static readonly bool[] leftHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/left_half_stencil.png"));
-    private static readonly bool[] sleevesStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/sleeve_stencil.png"));
-    private static readonly bool[] squiggleStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/squiggle_stencil.png"));
-    private static readonly bool[] spotsStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/spots_stencil.png"));
-    private static readonly bool[] beeStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/bee_stencil.png"));
-    private static readonly bool[] shamrockStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/shamrock_stencil.png"));
-    private static readonly bool[] unicycleStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Stencils/unicycle_stencil.png"));
-    public static readonly bool[] shirtStencil = StencilScript.generateStencilFromColors(getColorsFromFile("Assets/Sprites/Clothes/shirt.png"));
+    private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/top_half_stencil.png"));
+    private static readonly bool[] leftHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/left_half_stencil.png"));
+    private static readonly bool[] sleevesStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/sleeve_stencil.png"));
+    private static readonly bool[] squiggleStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/squiggle_stencil.png"));
+    private static readonly bool[] spotsStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/spots_stencil.png"));
+    private static readonly bool[] beeStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/bee_stencil.png"));
+    private static readonly bool[] shamrockStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/shamrock_stencil.png"));
+    private static readonly bool[] unicycleStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/unicycle_stencil.png"));
+    public static readonly bool[] shirtStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png"));
 
     public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int sellPrice)
     {
@@ -32,10 +32,10 @@ public class Order
         // Get original image
         byte[] image;
 
-        if (ClothingItem == ClothingItem.Shirt) image = File.ReadAllBytes("Assets/Sprites/Clothes/shirt.png");
-        else if (ClothingItem == ClothingItem.Pants) image = File.ReadAllBytes("Assets/Sprites/Clothes/pants.png");
-        else if (ClothingItem == ClothingItem.Hat) image = File.ReadAllBytes("Assets/Sprites/Clothes/hat.png");
-        else image = File.ReadAllBytes("Assets/Sprites/Clothes/shirt.png");
+        if (ClothingItem == ClothingItem.Shirt) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png");
+        else if (ClothingItem == ClothingItem.Pants) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/pants.png");
+        else if (ClothingItem == ClothingItem.Hat) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/hat.png");
+        else image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png");
 
         Texture2D tmpTexture = new Texture2D(64, 64);
         tmpTexture.LoadImage(image);

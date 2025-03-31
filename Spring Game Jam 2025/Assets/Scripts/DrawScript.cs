@@ -83,11 +83,11 @@ public class DrawScript : MonoBehaviour
             else pixels[i] = 0;
         }
 
-        smallSpray = generateBrushFromFile("Assets/Sprites/Brushes/small_spray.png");
-        mediumSpray = generateBrushFromFile("Assets/Sprites/Brushes/medium_spray.png");
-        bigSpray = generateBrushFromFile("Assets/Sprites/Brushes/big_spray.png");
-        giantSpray = generateBrushFromFile("Assets/Sprites/Brushes/giant_spray.png");
-        massiveSpray = generateBrushFromFile("Assets/Sprites/Brushes/massive_spray.png");
+        smallSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/small_spray.png");
+        mediumSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/medium_spray.png");
+        bigSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/big_spray.png");
+        giantSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/giant_spray.png");
+        massiveSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/massive_spray.png");
     }
 
     // Update is called once per frame
