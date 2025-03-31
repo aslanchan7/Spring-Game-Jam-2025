@@ -63,6 +63,11 @@ public class SprayCanScript : DragDroppable
         active = true;
     }
 
+    public override void OnDrag()
+    {
+        GetComponent<SpriteRenderer>().sortingLayerName = "DragDroppable";
+    }
+
     public override void OnEndDrag()
     {
         table.currentPaint = 0;
@@ -70,5 +75,7 @@ public class SprayCanScript : DragDroppable
 
         // Rotate back to normal
         transform.localRotation = Quaternion.identity;
+
+        GetComponent<SpriteRenderer>().sortingLayerName = "Clothes";
     }
 }
