@@ -18,7 +18,7 @@ public class StencilUpgradeOption : MonoBehaviour
 
     void Start()
     {
-        upgradeText.text = UpgradeMenu.Instance.StencilUpgrades[0] + "% Sell Price";
+        upgradeText.text = "+" + UpgradeMenu.Instance.StencilUpgrades[0] + "% Sell Price";
         priceText.text = "$" + UpgradeMenu.Instance.StencilUpgradePrices[0];
     }
 

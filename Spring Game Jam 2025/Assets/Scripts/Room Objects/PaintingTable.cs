@@ -13,6 +13,44 @@ public class PaintingTable : MonoBehaviour
     public bool isTitleScreen = false;
     public AudioSource spraySound;
 
+    public static bool[] smallSpray;
+    public static bool[] mediumSpray;
+    public static bool[] bigSpray;
+    public static bool[] giantSpray;
+    public static bool[] massiveSpray;
+
+    public static bool[] topHalfStencil;
+    public static bool[] leftHalfStencil;
+    public static bool[] sleevesStencil;
+    public static bool[] squiggleStencil;
+    public static bool[] spotsStencil;
+    public static bool[] beeStencil;
+    public static bool[] shamrockStencil;
+    public static bool[] unicycleStencil;
+    public static bool[] shirtStencil;
+    public static Color[] shirtSprite;
+
+    void Awake()
+    {
+        smallSpray = generateBrushFromColors(Resources.Load<Sprite>("Sprites/Brushes/small_spray").texture.GetPixels());
+        mediumSpray = generateBrushFromColors(Resources.Load<Sprite>("Sprites/Brushes/medium_spray").texture.GetPixels());
+        bigSpray = generateBrushFromColors(Resources.Load<Sprite>("Sprites/Brushes/big_spray").texture.GetPixels());
+        giantSpray = generateBrushFromColors(Resources.Load<Sprite>("Sprites/Brushes/giant_spray").texture.GetPixels());
+        massiveSpray = generateBrushFromColors(Resources.Load<Sprite>("Sprites/Brushes/massive_spray").texture.GetPixels());
+
+        topHalfStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/top_half_stencil").texture.GetPixels());
+        leftHalfStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/left_half_stencil").texture.GetPixels());
+        sleevesStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/sleeve_stencil").texture.GetPixels());
+        squiggleStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/squiggle_stencil").texture.GetPixels());
+        spotsStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/spots_stencil").texture.GetPixels());
+        beeStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/bee_stencil").texture.GetPixels());
+        shamrockStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/shamrock_stencil").texture.GetPixels());
+        unicycleStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Stencils/unicycle_stencil").texture.GetPixels());
+        shirtStencil = StencilScript.generateStencilFromColors(Resources.Load<Sprite>("Sprites/Clothes/shirt").texture.GetPixels());
+        
+        shirtSprite = Resources.Load<Sprite>("Sprites/Clothes/shirt").texture.GetPixels();
+    }
+
     void OnEnable()
     {
         UpgradeEventManager.UpgradePaintArea += OnUpgradePaintArea;
@@ -110,5 +148,17 @@ public class PaintingTable : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public static bool[] generateBrushFromColors(Color[] colors)
+    {
+        bool[] output = new bool[colors.Length];
+
+        for (int i = 0; i < colors.Length; i++)
+        {
+            output[i] = colors[i].a == 1;
+        }
+
+        return output;
     }
 }

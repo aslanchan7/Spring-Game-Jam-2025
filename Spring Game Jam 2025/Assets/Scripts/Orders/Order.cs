@@ -8,16 +8,6 @@ public class Order
     public PatternColor BaseColor;
     public int SellPrice;
 
-    private static readonly bool[] topHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/top_half_stencil.png"));
-    private static readonly bool[] leftHalfStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/left_half_stencil.png"));
-    private static readonly bool[] sleevesStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/sleeve_stencil.png"));
-    private static readonly bool[] squiggleStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/squiggle_stencil.png"));
-    private static readonly bool[] spotsStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/spots_stencil.png"));
-    private static readonly bool[] beeStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/bee_stencil.png"));
-    private static readonly bool[] shamrockStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/shamrock_stencil.png"));
-    private static readonly bool[] unicycleStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Stencils/unicycle_stencil.png"));
-    public static readonly bool[] shirtStencil = StencilScript.generateStencilFromColors(getColorsFromFile(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png"));
-
     public Order(ClothingItem clothingItem, PatternColor baseColor, Imprint[] imprints, int sellPrice)
     {
         this.ClothingItem = clothingItem;
@@ -29,18 +19,8 @@ public class Order
     // Generates a grid of bytes that represent a correct match
     public byte[] generatePattern()
     {
-        // Get original image
-        byte[] image;
-
-        if (ClothingItem == ClothingItem.Shirt) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png");
-        else if (ClothingItem == ClothingItem.Pants) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/pants.png");
-        else if (ClothingItem == ClothingItem.Hat) image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/hat.png");
-        else image = File.ReadAllBytes(Application.streamingAssetsPath + "/Sprites/Clothes/shirt.png");
-
-        Texture2D tmpTexture = new Texture2D(64, 64);
-        tmpTexture.LoadImage(image);
-        Color[] clothingPixels = tmpTexture.GetPixels();
-
+        Color[] clothingPixels = PaintingTable.shirtSprite;
+        
         // Generate pixel array
 
         byte[] pixels = new byte[64 * 64];
@@ -104,27 +84,16 @@ public class Order
         return false;
     }
 
-    public static Color[] getColorsFromFile(string file)
-    {
-        byte[] image = File.ReadAllBytes(file);
-
-        Texture2D tmpTexture = new Texture2D(64, 64);
-        tmpTexture.LoadImage(image);
-        Color[] pixels = tmpTexture.GetPixels();
-
-        return pixels;
-    }
-
     public bool[] getStencilFromPattern(Pattern pattern)
     {
-        if (pattern == Pattern.TopHalf) return topHalfStencil;
-        else if (pattern == Pattern.LeftHalf) return leftHalfStencil;
-        else if (pattern == Pattern.Sleeves) return sleevesStencil;
-        else if (pattern == Pattern.Squiggle) return squiggleStencil;
-        else if (pattern == Pattern.Spots) return spotsStencil;
-        else if (pattern == Pattern.Bee) return beeStencil;
-        else if (pattern == Pattern.Shamrock) return shamrockStencil;
-        else if (pattern == Pattern.Unicycle) return unicycleStencil;
+        if (pattern == Pattern.TopHalf) return PaintingTable.topHalfStencil;
+        else if (pattern == Pattern.LeftHalf) return PaintingTable.leftHalfStencil;
+        else if (pattern == Pattern.Sleeves) return PaintingTable.sleevesStencil;
+        else if (pattern == Pattern.Squiggle) return PaintingTable.squiggleStencil;
+        else if (pattern == Pattern.Spots) return PaintingTable.spotsStencil;
+        else if (pattern == Pattern.Bee) return PaintingTable.beeStencil;
+        else if (pattern == Pattern.Shamrock) return PaintingTable.shamrockStencil;
+        else if (pattern == Pattern.Unicycle) return PaintingTable.unicycleStencil;
         else return PaintingTable.allTrueStencil;
     }
 

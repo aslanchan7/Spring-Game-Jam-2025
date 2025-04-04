@@ -122,7 +122,7 @@ public class OrderManager : MonoBehaviour
         OrderBox orderBoxComponent = orderBox.GetComponent<OrderBox>();
         orderBoxComponent.order = order;
 
-        // Adjust color of the background box/panel
+        // Adjust size & color of the background box/panel
         Color panelColor = orderBoxComponent.background.color;
         orderBoxComponent.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.5f);
 
@@ -146,7 +146,7 @@ public class OrderManager : MonoBehaviour
         // Change the OrderBox settings for this new current order
         // Adjust size & color of the background box/panel
         Color panelColor = currentOrder.background.color;
-        currentOrder.background.color = new(panelColor.r, panelColor.g, panelColor.b, 1f);
+        currentOrder.background.color = new(panelColor.r, panelColor.g, panelColor.b, 0.8f);
 
         // Adjust alpha of the image
         Color spriteColor = currentOrder.image.color;
@@ -157,5 +157,10 @@ public class OrderManager : MonoBehaviour
 
         // Start timer
         TimerEventManager.OnTimerStart();
+    }
+
+    public int SellPrice()
+    {
+        return sellPrices[stencilUpgradeIndex];
     }
 }
