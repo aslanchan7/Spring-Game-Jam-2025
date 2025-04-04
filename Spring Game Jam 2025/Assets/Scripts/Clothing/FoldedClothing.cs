@@ -35,6 +35,8 @@ public class FoldedClothing : DragDroppable
 
     public override void OnDrag()
     {
+        GetComponent<SpriteRenderer>().sortingLayerName = "DragDroppable";
+
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         List<RaycastHit2D> hits = new();
         Physics2D.Raycast(mousePos, Vector2.zero, filter, hits);

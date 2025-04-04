@@ -50,6 +50,8 @@ public class Clothing : DragDroppable
 
     public override void OnDrag()
     {
+        GetComponent<SpriteRenderer>().sortingLayerName = "DragDroppable";
+
         // Raycast for UI Elements
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = Input.mousePosition;
@@ -90,13 +92,14 @@ public class Clothing : DragDroppable
 
     public override void OnEndDrag()
     {
+        GetComponent<SpriteRenderer>().sortingLayerName = "Clothes";
+        
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = Input.mousePosition;
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raycastResults);
         foreach (var raycastResult in raycastResults)
         {
-            Debug.Log("Hello");
             raycastResult.gameObject.TryGetComponent<OrderBox>(out var orderBoxComponent);
             if (orderBoxComponent != null)
             {

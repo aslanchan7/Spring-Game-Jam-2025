@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Networking;
+using System.Threading.Tasks;
 
 public class DrawScript : MonoBehaviour
 {
@@ -43,9 +45,9 @@ public class DrawScript : MonoBehaviour
     [HideInInspector] public static readonly Color sprayBlue = new Color32(99, 155, 255, 255); // 34
     [HideInInspector] public static readonly Color sprayPurple = new Color32(151, 0, 160, 255); // 35
 
-    [HideInInspector] public static bool[] smallSpray, mediumSpray, bigSpray, giantSpray, massiveSpray;
+    
 
-    private static bool[] currentSpray;
+    public static bool[] currentSpray = null;
 
     private bool hasUpdated;
     public AudioSource completeSound;
@@ -82,12 +84,6 @@ public class DrawScript : MonoBehaviour
             else if (block[i] == sprayPurple) pixels[i] = 35;
             else pixels[i] = 0;
         }
-
-        smallSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/small_spray.png");
-        mediumSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/medium_spray.png");
-        bigSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/big_spray.png");
-        giantSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/giant_spray.png");
-        massiveSpray = generateBrushFromFile(Application.streamingAssetsPath + "/Sprites/Brushes/massive_spray.png");
     }
 
     // Update is called once per frame
@@ -95,23 +91,23 @@ public class DrawScript : MonoBehaviour
     {
         if (table.spraySize == Spray.Small)
         {
-            currentSpray = smallSpray;
+            currentSpray = PaintingTable.smallSpray;
         }
         else if (table.spraySize == Spray.Medium)
         {
-            currentSpray = mediumSpray;
+            currentSpray = PaintingTable.mediumSpray;
         }
         else if (table.spraySize == Spray.Big)
         {
-            currentSpray = bigSpray;
+            currentSpray = PaintingTable.bigSpray;
         }
         else if (table.spraySize == Spray.Giant)
         {
-            currentSpray = giantSpray;
+            currentSpray = PaintingTable.giantSpray;
         }
         else if (table.spraySize == Spray.Massive)
         {
-            currentSpray = massiveSpray;
+            currentSpray = PaintingTable.massiveSpray;
         }
         paintWithMouse();
     }
@@ -177,7 +173,7 @@ public class DrawScript : MonoBehaviour
                 if (completeWhenFilled)
                 {
                     float completion = getStencilCompletionForColor(table.currentPaint);
-                    if (completion >= 0.93 && completion < 1) {
+                    if (completion >= 0.93) {
                         completeStencil(table.currentPaint);
                         flashAnimator.Play("ShirtFlash");
                         flashAnimator.Play("ShirtIdle");
@@ -210,7 +206,7 @@ public class DrawScript : MonoBehaviour
     void paintPixel(int x, int y, byte color, bool[] stencil) {
         if (x < 0 || x >= width || y < 0 || y >= height) return;
         if (applyTableStencil && !stencil[x + (y * width)]) return;
-        if (applyShirtStencil && table.GetComponentInChildren<Clothing>() && !Order.shirtStencil[x + (y * width)]) return;
+        if (applyShirtStencil && table.GetComponentInChildren<Clothing>() && !PaintingTable.shirtStencil[x + (y * width)]) return;
         int pixel = x + (y * width);
         if (pixels[pixel] >= 4) {
             if (pixels[pixel] == color) return;
@@ -219,9 +215,27 @@ public class DrawScript : MonoBehaviour
         }
     }
 
-    public static Color[] getColorsFromFile(string file)
+    public static async Awaitable<Color[]> getColorsFromFile(string file)
     {
-        byte[] image = File.ReadAllBytes(file);
+        byte[] image;
+
+        UnityWebRequest request = UnityWebRequest.Get(file);
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+        }
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            image = request.downloadHandler.data;
+        }
+        else
+        {
+            Debug.LogError("Cannot load file at " + file);
+            return null;
+        }
 
         Texture2D tmpTexture = new Texture2D(64, 64);
         tmpTexture.LoadImage(image);
@@ -230,9 +244,9 @@ public class DrawScript : MonoBehaviour
         return pixels;
     }
 
-    public static bool[] generateBrushFromFile(string file)
+    public static async Task<bool[]> generateBrushFromFile(string file)
     {
-        Color[] colors = getColorsFromFile(file);
+        Color[] colors = await getColorsFromFile(file);
 
         bool[] output = new bool[colors.Length];
 

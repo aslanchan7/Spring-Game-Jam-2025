@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,15 @@ public class OrderBox : MonoBehaviour
     public Timer timer;
     private Animator animator;
     public AudioSource completeOrderSound;
-    public AudioSource failOrderSound;
+    private AudioSource failOrderSound;
 
-    void Start()
+    async void Start()
     {
+        orderManager = GameObject.FindGameObjectWithTag("Order Manager").GetComponent<OrderManager>();
+        failOrderSound = orderManager.GetComponent<AudioSource>();
+        while (PaintingTable.shirtSprite == null) {
+            await Task.Yield();
+        }
         Sprite orderSprite = order.generateSprite();
         image.sprite = orderSprite;
         animator = GetComponent<Animator>();
@@ -33,8 +39,8 @@ public class OrderBox : MonoBehaviour
 
         if (isCurrentOrder && timer.TimeToDisplay <= 0f)
         {
-            DeleteOrder();
             failOrderSound.Play();
+            DeleteOrder();
         }
 
         GetComponent<RectTransform>().localScale = Vector3.one * 2; // this sets the localScale to 1 when mouse is not hovering over it
@@ -48,7 +54,7 @@ public class OrderBox : MonoBehaviour
         if (CheckOrderCompletion(clothingItem, dry, pixels) == true)
         {
             // Destroy item and remove order for successful sale
-            GameManager.Instance.UpdateMoney(order.SellPrice);
+            GameManager.Instance.UpdateMoney(orderManager.SellPrice());
             Destroy(item);
             animator.SetTrigger("Exit");
             completeOrderSound.Play();

@@ -9,6 +9,11 @@ public class StencilManager : MonoBehaviour
         UpgradeEventManager.UpgradeStencil += UpgradeStencil;
     }
 
+    void OnDisable()
+    {
+        UpgradeEventManager.UpgradeStencil -= UpgradeStencil;
+    }
+
     void UpgradeStencil()
     {
         if (ActiveStencils >= UpgradeMenu.Instance.StencilUpgrades.Length + 1) return;

@@ -9,6 +9,10 @@ public class TargetMoneyUI : MonoBehaviour
         GameManager.TargetMoneyUpdated += TargetMoneyUpdated;
     }
 
+    void OnDisable()
+    {
+        GameManager.TargetMoneyUpdated -= TargetMoneyUpdated;
+    }
     public void TargetMoneyUpdated(int value)
     {
         StartCoroutine(UpdateMoneyAnimation(value));
